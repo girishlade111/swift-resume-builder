@@ -11,6 +11,7 @@ export interface PersonalInfo {
   portfolioUrl: string;
   linkedinUrl: string;
   githubUrl: string;
+  profileImage: string;
 }
 
 export interface Education {
