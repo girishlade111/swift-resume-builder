@@ -81,14 +81,18 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3">
               {[
-                { icon: Twitter, href: '#', label: 'Twitter' },
-                { icon: Linkedin, href: '#', label: 'LinkedIn' },
-                { icon: Github, href: '#', label: 'GitHub' },
-                { icon: Mail, href: '#', label: 'Email' },
+                { icon: Instagram, href: 'https://www.instagram.com/girish_lade_/', label: 'Instagram' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/girish-lade-075bba201/', label: 'LinkedIn' },
+                { icon: Github, href: 'https://github.com/girishlade111', label: 'GitHub' },
+                { icon: CodepenIcon, href: 'https://codepen.io/Girish-Lade-the-looper', label: 'CodePen' },
+                { icon: Mail, href: 'mailto:admin@ladestack.in', label: 'Email' },
+                { icon: Globe, href: 'https://ladestack.in', label: 'Website' },
               ].map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
+                  target={social.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel="noopener noreferrer"
                   aria-label={social.label}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border bg-background text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary"
                 >
