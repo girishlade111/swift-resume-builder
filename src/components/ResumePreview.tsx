@@ -8,7 +8,7 @@ import CompactTemplate from '@/components/templates/CompactTemplate';
 import LeftSidebarTemplate from '@/components/templates/LeftSidebarTemplate';
 import ModernTemplate from '@/components/templates/ModernTemplate';
 import MinimalTemplate from '@/components/templates/MinimalTemplate';
-import { PdfClassic } from '@/components/pdf/PdfTemplates';
+import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal } from '@/components/pdf/PdfTemplates';
 import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
@@ -42,12 +42,22 @@ export default function ResumePreview() {
     }
   };
 
+  const getPdfComponent = () => {
+    switch (selectedTemplate) {
+      case 'compact': return <PdfCompact data={resume} />;
+      case 'left-sidebar': return <PdfLeftSidebar data={resume} />;
+      case 'modern': return <PdfModern data={resume} />;
+      case 'minimal': return <PdfMinimal data={resume} />;
+      default: return <PdfClassic data={resume} />;
+    }
+  };
+
   const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9 _-]/g, '').replace(/\s+/g, '-').trim() || 'Resume';
 
   const handleDownload = useCallback(async () => {
     setDownloading(true);
     try {
-      const blob = await pdf(<PdfClassic data={resume} />).toBlob();
+      const blob = await pdf(getPdfComponent()).toBlob();
       const name = sanitize(resume.personal.fullName || 'Resume');
       const title = resume.personal.jobTitle ? `-${sanitize(resume.personal.jobTitle)}` : '';
       const filename = `${name}${title}-Resume.pdf`;
@@ -62,7 +72,7 @@ export default function ResumePreview() {
     } finally {
       setDownloading(false);
     }
-  }, [resume]);
+  }, [resume, selectedTemplate]);
 
   return (
     <div className="space-y-3">
