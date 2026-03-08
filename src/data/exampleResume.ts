@@ -13,6 +13,7 @@ export const exampleResume: ResumeData = {
     portfolioUrl: 'https://aaravsharma.dev',
     linkedinUrl: 'https://linkedin.com/in/aaravsharma',
     githubUrl: 'https://github.com/aaravsharma',
+    profileImage: '',
   },
   summary:
     'Motivated frontend developer with hands-on experience in React, TypeScript, and modern web technologies. Passionate about building clean, accessible user interfaces and writing maintainable code.',
