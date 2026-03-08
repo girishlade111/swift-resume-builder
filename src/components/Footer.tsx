@@ -1,31 +1,32 @@
 /**
  * Footer — detailed multi-section footer with links, resources, and branding.
  */
-import { FileText, Github, Twitter, Linkedin, Mail, Heart, ExternalLink, BookOpen, Sparkles, Shield, Zap, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { FileText, Github, Twitter, Linkedin, Mail, Heart, Sparkles, Shield, Zap, Users } from 'lucide-react';
 
 const footerLinks = {
   product: [
-    { label: 'Resume Builder', href: '#' },
-    { label: 'Templates Gallery', href: '#' },
-    { label: 'ATS Checker', href: '#ats-info' },
-    { label: 'PDF Export', href: '#' },
+    { label: 'Resume Builder', href: '/' },
+    { label: 'Templates Gallery', href: '/' },
+    { label: 'ATS Checker', href: '/#ats-info' },
+    { label: 'PDF Export', href: '/' },
   ],
   resources: [
-    { label: 'Resume Writing Guide', href: '#ats-info' },
-    { label: 'ATS Tips & Tricks', href: '#ats-info' },
-    { label: 'Cover Letter Tips', href: '#' },
-    { label: 'Interview Prep', href: '#' },
+    { label: 'Resume Writing Guide', href: '/resume-guide' },
+    { label: 'ATS Tips & Tricks', href: '/#ats-info' },
+    { label: 'Cover Letter Tips', href: '/cover-letter-tips' },
+    { label: 'Interview Prep', href: '/interview-prep' },
   ],
   company: [
-    { label: 'About Lade Stack', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Careers', href: '#' },
-    { label: 'Contact Us', href: '#' },
+    { label: 'About Lade Stack', href: '/about' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Contact Us', href: '/contact' },
   ],
   legal: [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Service', href: '#' },
-    { label: 'Cookie Policy', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Policy', href: '/cookies' },
   ],
 };
 
@@ -35,6 +36,13 @@ const stats = [
   { icon: Shield, value: '100%', label: 'ATS Compatible' },
   { icon: Zap, value: 'Instant', label: 'PDF Export' },
 ];
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  if (href.startsWith('/#')) {
+    return <a href={href} className="text-sm text-muted-foreground hover:text-primary transition-colors">{children}</a>;
+  }
+  return <Link to={href} className="text-sm text-muted-foreground hover:text-primary transition-colors">{children}</Link>;
+}
 
 export default function Footer() {
   return (
@@ -63,10 +71,10 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4">
               <FileText className="h-6 w-6 text-primary" />
               <span className="text-xl font-bold text-foreground">Lade Stack</span>
-            </div>
+            </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-sm">
               Build professional, ATS-friendly resumes in minutes. Our free resume builder offers 22+ 
               templates with live preview and instant PDF export — no signup, no watermarks, no limits.
@@ -95,11 +103,7 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wider">Product</h3>
             <ul className="space-y-2.5">
               {footerLinks.product.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {link.label}
-                  </a>
-                </li>
+                <li key={link.label}><FooterLink href={link.href}>{link.label}</FooterLink></li>
               ))}
             </ul>
           </div>
@@ -108,11 +112,7 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wider">Resources</h3>
             <ul className="space-y-2.5">
               {footerLinks.resources.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {link.label}
-                  </a>
-                </li>
+                <li key={link.label}><FooterLink href={link.href}>{link.label}</FooterLink></li>
               ))}
             </ul>
           </div>
@@ -121,11 +121,7 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wider">Company</h3>
             <ul className="space-y-2.5">
               {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {link.label}
-                  </a>
-                </li>
+                <li key={link.label}><FooterLink href={link.href}>{link.label}</FooterLink></li>
               ))}
             </ul>
           </div>
@@ -141,9 +137,9 @@ export default function Footer() {
             </p>
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               {footerLinks.legal.map((link) => (
-                <a key={link.label} href={link.href} className="hover:text-primary transition-colors">
+                <Link key={link.label} to={link.href} className="hover:text-primary transition-colors">
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
             <p className="flex items-center gap-1 text-sm text-muted-foreground">

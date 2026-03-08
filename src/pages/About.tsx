@@ -9,9 +9,6 @@ const values = [
   { icon: Globe, title: 'Accessibility', desc: 'Our builder works on any device, any browser, anywhere in the world. No downloads, no installations, no accounts required.' },
 ];
 
-const team = [
-  { name: 'Lade Stack Team', role: 'Engineering & Design', bio: 'A passionate group of developers and designers building tools that help people land their dream jobs.' },
-];
 
 export default function About() {
   return (

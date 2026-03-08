@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { PenTool, CheckCircle, FileText, Lightbulb } from 'lucide-react';
+import { PenTool, FileText, Lightbulb } from 'lucide-react';
 
 const sections = [
   {
