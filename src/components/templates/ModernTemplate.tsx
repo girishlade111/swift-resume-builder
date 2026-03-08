@@ -1,28 +1,28 @@
 /**
- * Modern — Contemporary creative template.
- * Coral/orange + charcoal palette, bold typography, card-style sections,
- * timeline-inspired experience layout. Stands out while staying professional.
+ * Modern — Bold contemporary design.
+ * Deep charcoal with vibrant coral accents, rounded elements,
+ * timeline-style experience, card-based projects. Inspired by Notion/Linear.
  */
 import { ResumeData } from '@/types/resume';
 
 const C = {
-  coral: '#e85d3a',
-  coralLight: '#fff1ed',
-  coralDark: '#c2410c',
-  charcoal: '#1c1917',
-  text: '#292524',
-  muted: '#78716c',
-  light: '#fafaf9',
-  border: '#e7e5e4',
+  coral: '#dc4a2d',
+  coralLight: '#fef2ef',
+  coralDark: '#b83a22',
+  charcoal: '#18181b',
+  text: '#27272a',
+  muted: '#71717a',
+  light: '#fafafa',
+  border: '#e4e4e7',
   white: '#ffffff',
 };
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ marginTop: 20, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
-      <div style={{ width: 24, height: 3, background: C.coral, borderRadius: 2 }} />
+    <div style={{ marginTop: 22, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ width: 22, height: 3, background: C.coral, borderRadius: 2 }} />
       <h2 style={{
-        fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2,
+        fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2.5,
         color: C.charcoal, margin: 0, fontFamily: '"Inter", system-ui, sans-serif',
       }}>
         {children}
@@ -35,14 +35,14 @@ function Bullets({ items }: { items: string[] }) {
   const filtered = items.filter(b => b.trim());
   if (!filtered.length) return null;
   return (
-    <ul style={{ margin: '5px 0 0 0', padding: 0, listStyle: 'none' }}>
+    <ul style={{ margin: '5px 0 0', padding: 0, listStyle: 'none' }}>
       {filtered.map((b, i) => (
         <li key={i} style={{
           fontSize: 10, lineHeight: 1.65, marginBottom: 2, paddingLeft: 14,
           position: 'relative', color: C.text,
         }}>
           <span style={{
-            position: 'absolute', left: 0, top: 5, width: 6, height: 6,
+            position: 'absolute', left: 0, top: 5, width: 5, height: 5,
             border: `1.5px solid ${C.coral}`, borderRadius: '50%',
           }} />
           {b}
@@ -53,59 +53,41 @@ function Bullets({ items }: { items: string[] }) {
 }
 
 export default function ModernTemplate({ data }: { data: ResumeData }) {
-  const { personal, summary, experience, education, projects, skills, extras } = data;
+  const { personal: p, summary, experience, education, projects, skills, extras } = data;
 
   return (
     <div style={{ fontFamily: '"Inter", system-ui, -apple-system, sans-serif', fontSize: 10, lineHeight: 1.5, color: C.text }}>
       {/* Header */}
       <div style={{
-        padding: '36px 40px 28px', position: 'relative', overflow: 'hidden',
-        background: C.charcoal,
+        padding: '38px 42px 30px', position: 'relative', overflow: 'hidden', background: C.charcoal,
       }}>
-        {/* Decorative circle */}
         <div style={{
-          position: 'absolute', top: -40, right: -40,
-          width: 160, height: 160, borderRadius: '50%',
-          background: C.coral, opacity: 0.12,
+          position: 'absolute', top: -50, right: -50,
+          width: 180, height: 180, borderRadius: '50%', background: C.coral, opacity: 0.08,
         }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 20, position: 'relative' }}>
-          {personal.profileImage && (
-            <img src={personal.profileImage} alt="" style={{
-              width: 80, height: 80, borderRadius: 12, objectFit: 'cover', flexShrink: 0,
-              border: `3px solid ${C.coral}`,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          {p.profileImage && (
+            <img src={p.profileImage} alt="" style={{
+              width: 78, height: 78, borderRadius: 14, objectFit: 'cover',
+              border: `3px solid ${C.coral}`, boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
             }} />
           )}
           <div style={{ flex: 1 }}>
-            <h1 style={{
-              fontSize: 28, fontWeight: 900, margin: 0, color: C.white,
-              letterSpacing: -0.5, lineHeight: 1.1,
-            }}>
-              {personal.fullName || 'Your Name'}
+            <h1 style={{ fontSize: 28, fontWeight: 900, margin: 0, color: C.white, letterSpacing: -0.5, lineHeight: 1.1 }}>
+              {p.fullName || 'Your Name'}
             </h1>
-            {personal.jobTitle && (
-              <div style={{
-                fontSize: 12, color: C.coral, marginTop: 4,
-                fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase',
-              }}>
-                {personal.jobTitle}
-              </div>
+            {p.jobTitle && (
+              <div style={{ fontSize: 11.5, color: C.coral, marginTop: 5, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>{p.jobTitle}</div>
             )}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 12 }}>
-              {[personal.email, personal.phone, personal.location].filter(Boolean).map((c, i) => (
-                <span key={i} style={{
-                  fontSize: 9, color: 'rgba(255,255,255,0.7)',
-                  padding: '2px 8px', background: 'rgba(255,255,255,0.08)',
-                  borderRadius: 4,
-                }}>
-                  {c}
-                </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 12 }}>
+              {[p.email, p.phone, p.location].filter(Boolean).map((c, i) => (
+                <span key={i} style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.65)', padding: '2px 10px', background: 'rgba(255,255,255,0.07)', borderRadius: 4 }}>{c}</span>
               ))}
             </div>
-            {[personal.portfolioUrl, personal.linkedinUrl, personal.githubUrl].filter(Boolean).length > 0 && (
+            {[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean).length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 4 }}>
-                {[personal.portfolioUrl, personal.linkedinUrl, personal.githubUrl].filter(Boolean).map((l, i) => (
-                  <span key={i} style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.5)' }}>{l}</span>
+                {[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean).map((l, i) => (
+                  <span key={i} style={{ fontSize: 8, color: 'rgba(255,255,255,0.4)' }}>{l}</span>
                 ))}
               </div>
             )}
@@ -113,18 +95,17 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
         </div>
       </div>
 
-      {/* Coral accent bar */}
       <div style={{ height: 3, background: `linear-gradient(90deg, ${C.coral}, ${C.coralDark}, transparent)` }} />
 
       {/* Body */}
-      <div style={{ padding: '8px 40px 36px' }}>
+      <div style={{ padding: '8px 42px 38px' }}>
         {summary && (
           <>
             <SectionTitle>About Me</SectionTitle>
             <div style={{
               fontSize: 10, lineHeight: 1.75, color: C.muted,
               padding: '10px 14px', background: C.coralLight,
-              borderRadius: 6, borderLeft: `3px solid ${C.coral}`,
+              borderRadius: 8, borderLeft: `3px solid ${C.coral}`,
             }}>
               {summary}
             </div>
@@ -136,20 +117,20 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             <SectionTitle>Experience</SectionTitle>
             {experience.map((exp, idx) => (
               <div key={exp.id} style={{
-                marginBottom: 16, paddingLeft: 16,
+                marginBottom: 16, paddingLeft: 18,
                 borderLeft: `2px solid ${idx === 0 ? C.coral : C.border}`,
                 position: 'relative',
               }}>
                 <div style={{
-                  position: 'absolute', left: -5, top: 2,
-                  width: 8, height: 8, borderRadius: '50%',
+                  position: 'absolute', left: -5.5, top: 2,
+                  width: 9, height: 9, borderRadius: '50%',
                   background: idx === 0 ? C.coral : C.border,
                   border: `2px solid ${C.white}`,
                 }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <strong style={{ fontSize: 12, color: C.charcoal }}>{exp.role}</strong>
+                  <strong style={{ fontSize: 11.5, color: C.charcoal }}>{exp.role}</strong>
                   <span style={{
-                    fontSize: 8.5, color: C.white, background: C.coral,
+                    fontSize: 8, color: C.white, background: C.coral,
                     padding: '2px 10px', borderRadius: 10, fontWeight: 700, flexShrink: 0, marginLeft: 8,
                   }}>
                     {exp.startDate}{exp.startDate && (exp.isCurrent ? ' – Present' : exp.endDate ? ` – ${exp.endDate}` : '')}
@@ -170,16 +151,10 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             {education.map(edu => (
               <div key={edu.id} style={{ marginBottom: 10 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <strong style={{ fontSize: 11, color: C.charcoal }}>
-                    {edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}
-                  </strong>
-                  <span style={{ fontSize: 9, color: C.muted, flexShrink: 0, marginLeft: 8 }}>
-                    {edu.startYear}{edu.endYear ? ` – ${edu.endYear}` : ''}
-                  </span>
+                  <strong style={{ fontSize: 11, color: C.charcoal }}>{edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}</strong>
+                  <span style={{ fontSize: 8.5, color: C.muted }}>{edu.startYear}{edu.endYear ? ` – ${edu.endYear}` : ''}</span>
                 </div>
-                <div style={{ fontSize: 10, color: C.muted }}>
-                  {edu.schoolName}{edu.grade ? ` — ${edu.grade}` : ''}
-                </div>
+                <div style={{ fontSize: 10, color: C.muted }}>{edu.schoolName}{edu.grade ? ` — ${edu.grade}` : ''}</div>
               </div>
             ))}
           </>
@@ -190,18 +165,14 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             <SectionTitle>Projects</SectionTitle>
             {projects.map(proj => (
               <div key={proj.id} style={{
-                marginBottom: 12, padding: '8px 12px',
-                background: C.light, borderRadius: 6, border: `1px solid ${C.border}`,
+                marginBottom: 12, padding: '10px 14px',
+                background: C.light, borderRadius: 8, border: `1px solid ${C.border}`,
               }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                   <strong style={{ fontSize: 11, color: C.charcoal }}>{proj.name}</strong>
                   {proj.link && <span style={{ fontSize: 8.5, color: C.coral }}>↗ {proj.link}</span>}
                 </div>
-                {proj.techStack && (
-                  <div style={{ fontSize: 8.5, color: C.muted, fontWeight: 600, marginTop: 2 }}>
-                    {proj.techStack}
-                  </div>
-                )}
+                {proj.techStack && <div style={{ fontSize: 8.5, color: C.muted, fontWeight: 600, marginTop: 2 }}>{proj.techStack}</div>}
                 <Bullets items={proj.bulletPoints} />
               </div>
             ))}
@@ -213,39 +184,15 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             <SectionTitle>Technical Skills</SectionTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {skills.map((s, i) => (
-                <span key={i} style={{
-                  fontSize: 9, padding: '3px 12px', borderRadius: 14,
-                  background: C.charcoal, color: C.white, fontWeight: 600,
-                }}>
-                  {s}
-                </span>
+                <span key={i} style={{ fontSize: 8.5, padding: '3px 12px', borderRadius: 14, background: C.charcoal, color: C.white, fontWeight: 600 }}>{s}</span>
               ))}
             </div>
           </>
         )}
 
-        {extras.certifications && (
-          <>
-            <SectionTitle>Certifications</SectionTitle>
-            {extras.certifications.split('\n').filter(Boolean).map((c, i) => (
-              <div key={i} style={{ fontSize: 10, marginBottom: 3, color: C.text }}>{c}</div>
-            ))}
-          </>
-        )}
-        {extras.languages && (
-          <>
-            <SectionTitle>Languages</SectionTitle>
-            <p style={{ fontSize: 10, margin: 0, color: C.text }}>{extras.languages}</p>
-          </>
-        )}
-        {extras.achievements && (
-          <>
-            <SectionTitle>Achievements</SectionTitle>
-            {extras.achievements.split('\n').filter(Boolean).map((a, i) => (
-              <div key={i} style={{ fontSize: 10, marginBottom: 3, color: C.text }}>{a}</div>
-            ))}
-          </>
-        )}
+        {extras.certifications && <><SectionTitle>Certifications</SectionTitle>{extras.certifications.split('\n').filter(Boolean).map((c, i) => <div key={i} style={{ fontSize: 10, marginBottom: 3 }}>{c}</div>)}</>}
+        {extras.languages && <><SectionTitle>Languages</SectionTitle><p style={{ fontSize: 10, margin: 0 }}>{extras.languages}</p></>}
+        {extras.achievements && <><SectionTitle>Achievements</SectionTitle>{extras.achievements.split('\n').filter(Boolean).map((a, i) => <div key={i} style={{ fontSize: 10, marginBottom: 3 }}>{a}</div>)}</>}
       </div>
     </div>
   );
