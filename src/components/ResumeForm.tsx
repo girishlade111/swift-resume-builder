@@ -12,6 +12,10 @@ import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Plus, Trash2, RotateCcw, FileText } from 'lucide-react';
 import AtsTips from '@/components/AtsTips';
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -56,9 +60,25 @@ export default function ResumeForm() {
           <Button variant="outline" size="sm" onClick={resetToExample}>
             <FileText className="h-3.5 w-3.5 mr-1" /> Example
           </Button>
-          <Button variant="outline" size="sm" onClick={resetToEmpty}>
-            <RotateCcw className="h-3.5 w-3.5 mr-1" /> Clear
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <RotateCcw className="h-3.5 w-3.5 mr-1" /> Clear
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Clear all data?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will remove all resume content. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={resetToEmpty}>Clear</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
