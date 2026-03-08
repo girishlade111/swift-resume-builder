@@ -1,51 +1,42 @@
 /**
  * ResumePreview — live A4 preview with template switching and PDF download.
+ * Templates are lazy-loaded to reduce initial bundle size.
  */
 import { useResume } from '@/context/ResumeContext';
 import TemplateSelector from '@/components/TemplateSelector';
-import ClassicTemplate from '@/components/templates/ClassicTemplate';
-import CompactTemplate from '@/components/templates/CompactTemplate';
-import LeftSidebarTemplate from '@/components/templates/LeftSidebarTemplate';
-import ModernTemplate from '@/components/templates/ModernTemplate';
-import MinimalTemplate from '@/components/templates/MinimalTemplate';
-import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate';
-import CleanTemplate from '@/components/templates/CleanTemplate';
-import {
-  ExecutiveTemplate, CreativeTemplate, ElegantTemplate, BoldTemplate,
-  TechTemplate, GradientTemplate, InfographicTemplate, TimelineTemplate,
-  MagazineTemplate, MonochromeTemplate, ArtisticTemplate, CorporateTemplate,
-  StarterTemplate, AcademicTemplate, DesignerTemplate,
-} from '@/components/templates/AllTemplates';
 import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGeneric } from '@/components/pdf/PdfTemplates';
 import { pdf } from '@react-pdf/renderer';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, lazy, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2 } from 'lucide-react';
 import { TemplateName } from '@/types/resume';
 
-const templateMap: Record<TemplateName, React.ComponentType<{ data: any }>> = {
-  classic: ClassicTemplate,
-  compact: CompactTemplate,
-  'left-sidebar': LeftSidebarTemplate,
-  modern: ModernTemplate,
-  minimal: MinimalTemplate,
-  professional: ProfessionalTemplate,
-  clean: CleanTemplate,
-  executive: ExecutiveTemplate,
-  creative: CreativeTemplate,
-  elegant: ElegantTemplate,
-  bold: BoldTemplate,
-  tech: TechTemplate,
-  gradient: GradientTemplate,
-  infographic: InfographicTemplate,
-  timeline: TimelineTemplate,
-  magazine: MagazineTemplate,
-  monochrome: MonochromeTemplate,
-  artistic: ArtisticTemplate,
-  corporate: CorporateTemplate,
-  starter: StarterTemplate,
-  academic: AcademicTemplate,
-  designer: DesignerTemplate,
+// Lazy-load all templates — only fetched when selected
+const lazyTemplate = (loader: () => Promise<{ default: React.ComponentType<any> }>) => lazy(loader);
+
+const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.ComponentType<{ data: any }>>> = {
+  classic: lazyTemplate(() => import('@/components/templates/ClassicTemplate')),
+  compact: lazyTemplate(() => import('@/components/templates/CompactTemplate')),
+  'left-sidebar': lazyTemplate(() => import('@/components/templates/LeftSidebarTemplate')),
+  modern: lazyTemplate(() => import('@/components/templates/ModernTemplate')),
+  minimal: lazyTemplate(() => import('@/components/templates/MinimalTemplate')),
+  professional: lazyTemplate(() => import('@/components/templates/ProfessionalTemplate')),
+  clean: lazyTemplate(() => import('@/components/templates/CleanTemplate')),
+  executive: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.ExecutiveTemplate }))),
+  creative: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.CreativeTemplate }))),
+  elegant: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.ElegantTemplate }))),
+  bold: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.BoldTemplate }))),
+  tech: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.TechTemplate }))),
+  gradient: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.GradientTemplate }))),
+  infographic: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.InfographicTemplate }))),
+  timeline: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.TimelineTemplate }))),
+  magazine: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.MagazineTemplate }))),
+  monochrome: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.MonochromeTemplate }))),
+  artistic: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.ArtisticTemplate }))),
+  corporate: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.CorporateTemplate }))),
+  starter: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.StarterTemplate }))),
+  academic: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.AcademicTemplate }))),
+  designer: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.DesignerTemplate }))),
 };
 
 // PDF color configs for generic templates
@@ -88,8 +79,12 @@ export default function ResumePreview() {
   }, []);
 
   const renderTemplate = () => {
-    const Component = templateMap[selectedTemplate] || ClassicTemplate;
-    return <Component data={resume} />;
+    const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
+    return (
+      <Suspense fallback={<div style={{ width: 794, minHeight: 1123, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+        <Component data={resume} />
+      </Suspense>
+    );
   };
 
   const getPdfComponent = () => {
