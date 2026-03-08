@@ -2,7 +2,7 @@
  * PDF Templates — all 5 templates for @react-pdf/renderer.
  * Matches the HTML templates: Classic, Compact, Left Sidebar, Modern, Minimal.
  */
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, View, Text, Image, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData } from '@/types/resume';
 
 /* ── Shared helpers ── */
