@@ -275,7 +275,6 @@ export function PdfModern({ data }: { data: ResumeData }) {
             <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
           </View>
         </View>
-        <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
 
         {summary ? <><Text style={modernS.section}>Summary</Text><Text>{summary}</Text></> : null}
 
