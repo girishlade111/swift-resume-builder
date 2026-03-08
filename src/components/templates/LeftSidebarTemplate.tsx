@@ -39,6 +39,9 @@ export default function LeftSidebarTemplate({ data }: { data: ResumeData }) {
     <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 11, lineHeight: 1.4, color: '#222', display: 'flex', minHeight: '100%' }}>
       {/* Left sidebar */}
       <div style={{ width: 220, flexShrink: 0, background: '#1e293b', color: '#e2e8f0', padding: '28px 20px' }}>
+        {personal.profileImage && (
+          <img src={personal.profileImage} alt="" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', margin: '0 auto 12px', display: 'block', border: '3px solid rgba(255,255,255,0.2)' }} />
+        )}
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: '#fff', lineHeight: 1.2 }}>{personal.fullName || 'Your Name'}</h1>
         {personal.jobTitle && <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>{personal.jobTitle}</div>}
 

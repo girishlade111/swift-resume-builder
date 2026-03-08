@@ -30,11 +30,16 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
 
   return (
     <div style={{ fontFamily: 'Inter, Arial, sans-serif', fontSize: 11, lineHeight: 1.4, color: '#1a1a1a', padding: '32px 36px' }}>
-      <div style={{ marginBottom: 10 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, margin: 0, color: ACCENT }}>{personal.fullName || 'Your Name'}</h1>
-        {personal.jobTitle && <div style={{ fontSize: 14, fontWeight: 500, color: '#444', marginTop: 2 }}>{personal.jobTitle}</div>}
-        {contactParts.length > 0 && <div style={{ fontSize: 10, color: '#666', marginTop: 6 }}>{contactParts.join('  |  ')}</div>}
-        {linkParts.length > 0 && <div style={{ fontSize: 10, color: '#666', marginTop: 2 }}>{linkParts.join('  |  ')}</div>}
+      <div style={{ marginBottom: 10, display: 'flex', alignItems: 'center', gap: 16 }}>
+        {personal.profileImage && (
+          <img src={personal.profileImage} alt="" style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+        )}
+        <div>
+          <h1 style={{ fontSize: 26, fontWeight: 800, margin: 0, color: ACCENT }}>{personal.fullName || 'Your Name'}</h1>
+          {personal.jobTitle && <div style={{ fontSize: 14, fontWeight: 500, color: '#444', marginTop: 2 }}>{personal.jobTitle}</div>}
+          {contactParts.length > 0 && <div style={{ fontSize: 10, color: '#666', marginTop: 6 }}>{contactParts.join('  |  ')}</div>}
+          {linkParts.length > 0 && <div style={{ fontSize: 10, color: '#666', marginTop: 2 }}>{linkParts.join('  |  ')}</div>}
+        </div>
       </div>
 
       {summary && <><SectionTitle>Summary</SectionTitle><p style={{ fontSize: 11, margin: 0, lineHeight: 1.6 }}>{summary}</p></>}
