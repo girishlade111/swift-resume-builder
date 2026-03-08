@@ -266,9 +266,15 @@ export function PdfModern({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={modernS.page}>
-        <Text style={modernS.name}>{p.fullName || 'Your Name'}</Text>
-        {p.jobTitle ? <Text style={modernS.jobTitle}>{p.jobTitle}</Text> : null}
-        <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ marginTop: 6 }} />
+        <View style={{ flexDirection: 'row' as const, alignItems: 'center' as const, gap: 12, marginBottom: 4 }}>
+          {p.profileImage ? <Image src={p.profileImage} style={{ width: 60, height: 60, borderRadius: 30 }} /> : null}
+          <View>
+            <Text style={modernS.name}>{p.fullName || 'Your Name'}</Text>
+            {p.jobTitle ? <Text style={modernS.jobTitle}>{p.jobTitle}</Text> : null}
+            <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ marginTop: 6 }} />
+            <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
+          </View>
+        </View>
         <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
 
         {summary ? <><Text style={modernS.section}>Summary</Text><Text>{summary}</Text></> : null}
