@@ -106,6 +106,50 @@ export default function ResumeForm() {
         <AccordionItem value="personal" className="rounded-lg border bg-card px-4">
           <AccordionTrigger className="text-sm font-semibold">Personal Info</AccordionTrigger>
           <AccordionContent className="grid gap-3 pb-4 sm:grid-cols-2">
+            {/* Profile Image Upload */}
+            <div className="sm:col-span-2">
+              <Label className="text-xs font-medium">Profile Picture</Label>
+              <div className="flex items-center gap-3 mt-1.5">
+                {resume.personal.profileImage ? (
+                  <div className="relative">
+                    <img
+                      src={resume.personal.profileImage}
+                      alt="Profile"
+                      className="h-16 w-16 rounded-full object-cover border-2 border-border"
+                    />
+                    <button
+                      onClick={removeImage}
+                      className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center text-xs"
+                      aria-label="Remove profile picture"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center border-2 border-dashed border-border">
+                    <Upload className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                )}
+                <div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="h-3.5 w-3.5 mr-1" /> {resume.personal.profileImage ? 'Change' : 'Upload'}
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">JPG, PNG. Max 2MB recommended.</p>
+                </div>
+              </div>
+            </div>
             <Field label="Full Name *">
               <Input value={resume.personal.fullName} onChange={e => ctx.updatePersonal('fullName', e.target.value)} placeholder="John Doe" />
             </Field>
