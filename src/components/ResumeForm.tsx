@@ -30,7 +30,22 @@ export default function ResumeForm() {
   const ctx = useResume();
   const { resume, persistEnabled, togglePersist, resetToExample, resetToEmpty } = ctx;
   const [skillInput, setSkillInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      ctx.updatePersonal('profileImage', reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    ctx.updatePersonal('profileImage', '');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
   const handleSkillKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault();
