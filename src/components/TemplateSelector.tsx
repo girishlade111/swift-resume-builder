@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils';
 
 const templates: { name: TemplateName; label: string }[] = [
   { name: 'classic', label: 'Classic' },
+  { name: 'compact', label: 'Compact' },
+  { name: 'left-sidebar', label: 'Left Sidebar' },
   { name: 'modern', label: 'Modern' },
   { name: 'minimal', label: 'Minimal' },
-  { name: 'professional', label: 'Professional' },
-  { name: 'clean', label: 'Clean' },
 ];
 
 export default function TemplateSelector() {
