@@ -4,7 +4,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ResumeForm from '@/components/ResumeForm';
-import ResumePreviewPlaceholder from '@/components/ResumePreviewPlaceholder';
+import ResumePreview from '@/components/ResumePreview';
 import InfoSection from '@/components/InfoSection';
 import { ResumeProvider } from '@/context/ResumeContext';
 
@@ -20,7 +20,7 @@ const Index = () => {
                 <ResumeForm />
               </div>
               <div className="order-1 lg:order-2 lg:sticky lg:top-20 lg:self-start">
-                <ResumePreviewPlaceholder />
+                <ResumePreview />
               </div>
             </div>
           </div>
