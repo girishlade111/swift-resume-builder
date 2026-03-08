@@ -1,28 +1,40 @@
 /**
- * Compact template — high-density professional layout with accent top bar,
- * two-column skills, and refined micro-typography.
+ * Compact — High-density tech-forward layout.
+ * Slate + violet accent, tight spacing, maximum content per page.
+ * Inspired by top tech company resume formats.
  */
 import { ResumeData } from '@/types/resume';
 
-const ACCENT = '#0f766e';
-const LIGHT = '#f0fdfa';
+const C = {
+  accent: '#6d28d9',
+  accentLight: '#ede9fe',
+  accentMid: '#8b5cf6',
+  dark: '#1e1b4b',
+  text: '#334155',
+  muted: '#94a3b8',
+  border: '#e2e8f0',
+  bg: '#faf5ff',
+  white: '#ffffff',
+};
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 style={{
-      fontSize: 9.5,
-      fontWeight: 700,
-      textTransform: 'uppercase',
-      letterSpacing: 2,
-      color: ACCENT,
-      marginBottom: 5,
-      marginTop: 12,
-      paddingBottom: 3,
-      borderBottom: `1.5px solid ${ACCENT}`,
-      fontFamily: '"Segoe UI", Roboto, sans-serif',
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8,
+      marginTop: 14, marginBottom: 6,
     }}>
-      {children}
-    </h2>
+      <div style={{
+        width: 6, height: 6, borderRadius: '50%', background: C.accent,
+        boxShadow: `0 0 0 2px ${C.accentLight}`,
+      }} />
+      <h2 style={{
+        fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2.5,
+        color: C.accent, margin: 0, fontFamily: '"Inter", "Segoe UI", sans-serif',
+      }}>
+        {children}
+      </h2>
+      <div style={{ flex: 1, height: 1, background: C.border }} />
+    </div>
   );
 }
 
@@ -30,10 +42,13 @@ function Bullets({ items }: { items: string[] }) {
   const filtered = items.filter(b => b.trim());
   if (!filtered.length) return null;
   return (
-    <ul style={{ margin: '3px 0 0 12px', padding: 0, listStyle: 'none' }}>
+    <ul style={{ margin: '4px 0 0 0', padding: 0, listStyle: 'none' }}>
       {filtered.map((b, i) => (
-        <li key={i} style={{ fontSize: 9.5, lineHeight: 1.5, marginBottom: 1, paddingLeft: 8, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 0, color: ACCENT, fontSize: 8 }}>▸</span>
+        <li key={i} style={{
+          fontSize: 9.5, lineHeight: 1.55, marginBottom: 1, paddingLeft: 12,
+          position: 'relative', color: C.text,
+        }}>
+          <span style={{ position: 'absolute', left: 0, color: C.accentMid, fontSize: 7, top: 3 }}>▸</span>
           {b}
         </li>
       ))}
@@ -43,48 +58,51 @@ function Bullets({ items }: { items: string[] }) {
 
 export default function CompactTemplate({ data }: { data: ResumeData }) {
   const { personal, summary, experience, education, projects, skills, extras } = data;
-  const contactParts = [personal.email, personal.phone, personal.location].filter(Boolean);
-  const linkParts = [personal.portfolioUrl, personal.linkedinUrl, personal.githubUrl].filter(Boolean);
+  const allContact = [personal.email, personal.phone, personal.location, personal.linkedinUrl, personal.githubUrl, personal.portfolioUrl].filter(Boolean);
 
   return (
-    <div style={{ fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", sans-serif', fontSize: 9.5, lineHeight: 1.4, color: '#1f2937' }}>
-      {/* Top accent bar */}
-      <div style={{ height: 4, background: `linear-gradient(to right, ${ACCENT}, #14b8a6)` }} />
-
+    <div style={{ fontFamily: '"Inter", "Segoe UI", Roboto, sans-serif', fontSize: 9.5, lineHeight: 1.45, color: C.text }}>
       {/* Header */}
-      <div style={{ padding: '16px 24px 12px', background: LIGHT, display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div style={{
+        padding: '24px 28px 20px',
+        background: `linear-gradient(135deg, ${C.dark} 0%, ${C.accent} 100%)`,
+        color: C.white, display: 'flex', alignItems: 'center', gap: 16,
+      }}>
         {personal.profileImage && (
           <img src={personal.profileImage} alt="" style={{
-            width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', flexShrink: 0,
-            border: `2px solid ${ACCENT}`,
+            width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0,
+            border: '2px solid rgba(255,255,255,0.3)',
           }} />
         )}
         <div style={{ flex: 1 }}>
-          <h1 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: '#111827', letterSpacing: 0.5 }}>
+          <h1 style={{ fontSize: 20, fontWeight: 800, margin: 0, letterSpacing: 0.5 }}>
             {personal.fullName || 'Your Name'}
           </h1>
           {personal.jobTitle && (
-            <div style={{ fontSize: 10, color: ACCENT, marginTop: 1, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>
+            <div style={{ fontSize: 10, opacity: 0.85, marginTop: 2, fontWeight: 500, letterSpacing: 1, textTransform: 'uppercase' }}>
               {personal.jobTitle}
             </div>
           )}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 4 }}>
-            {contactParts.map((c, i) => (
-              <span key={i} style={{ fontSize: 8.5, color: '#6b7280' }}>{c}</span>
-            ))}
-            {linkParts.map((l, i) => (
-              <span key={`l${i}`} style={{ fontSize: 8.5, color: '#6b7280' }}>{l}</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 8 }}>
+            {allContact.map((c, i) => (
+              <span key={i} style={{
+                fontSize: 8, opacity: 0.75,
+                padding: '1px 6px', borderRadius: 3,
+                background: 'rgba(255,255,255,0.1)',
+              }}>
+                {c}
+              </span>
             ))}
           </div>
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ padding: '8px 24px 20px' }}>
+      <div style={{ padding: '4px 28px 24px' }}>
         {summary && (
           <>
             <SectionTitle>Summary</SectionTitle>
-            <p style={{ fontSize: 9.5, margin: 0, lineHeight: 1.55, color: '#374151' }}>{summary}</p>
+            <p style={{ fontSize: 9.5, margin: 0, lineHeight: 1.6, color: C.text }}>{summary}</p>
           </>
         )}
 
@@ -92,17 +110,20 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <>
             <SectionTitle>Experience</SectionTitle>
             {experience.map(exp => (
-              <div key={exp.id} style={{ marginBottom: 8 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <strong style={{ fontSize: 10, color: '#111827' }}>
-                    {exp.role}
-                    {exp.company && <span style={{ fontWeight: 400, color: '#6b7280' }}> at {exp.company}</span>}
-                  </strong>
-                  <span style={{ fontSize: 8.5, color: '#9ca3af', flexShrink: 0, marginLeft: 6 }}>
+              <div key={exp.id} style={{ marginBottom: 10 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <strong style={{ fontSize: 10.5, color: C.dark }}>{exp.role}</strong>
+                    {exp.company && <span style={{ color: C.muted, fontWeight: 400 }}> — {exp.company}</span>}
+                  </div>
+                  <span style={{
+                    fontSize: 8, color: C.accent, flexShrink: 0, marginLeft: 8,
+                    padding: '1px 8px', background: C.accentLight, borderRadius: 10, fontWeight: 600,
+                  }}>
                     {exp.startDate}{exp.startDate && (exp.isCurrent ? ' – Present' : exp.endDate ? ` – ${exp.endDate}` : '')}
                   </span>
                 </div>
-                {exp.location && <div style={{ fontSize: 8.5, color: '#9ca3af' }}>{exp.location}</div>}
+                {exp.location && <div style={{ fontSize: 8.5, color: C.muted, marginTop: 1 }}>{exp.location}</div>}
                 <Bullets items={exp.bulletPoints} />
               </div>
             ))}
@@ -113,16 +134,18 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <>
             <SectionTitle>Education</SectionTitle>
             {education.map(edu => (
-              <div key={edu.id} style={{ marginBottom: 6 }}>
+              <div key={edu.id} style={{ marginBottom: 7 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <strong style={{ fontSize: 10, color: '#111827' }}>
+                  <strong style={{ fontSize: 10, color: C.dark }}>
                     {edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}
                   </strong>
-                  <span style={{ fontSize: 8.5, color: '#9ca3af', flexShrink: 0, marginLeft: 6 }}>
+                  <span style={{ fontSize: 8, color: C.muted, flexShrink: 0, marginLeft: 6 }}>
                     {edu.startYear}{edu.endYear ? ` – ${edu.endYear}` : ''}
                   </span>
                 </div>
-                <div style={{ fontSize: 9.5 }}>{edu.schoolName}{edu.grade ? ` — ${edu.grade}` : ''}</div>
+                <div style={{ fontSize: 9.5, color: C.muted }}>
+                  {edu.schoolName}{edu.grade ? ` — ${edu.grade}` : ''}
+                </div>
               </div>
             ))}
           </>
@@ -132,11 +155,13 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <>
             <SectionTitle>Projects</SectionTitle>
             {projects.map(proj => (
-              <div key={proj.id} style={{ marginBottom: 7 }}>
-                <strong style={{ fontSize: 10, color: '#111827' }}>{proj.name}</strong>
-                {proj.link && <span style={{ fontSize: 8.5, color: '#9ca3af' }}> — {proj.link}</span>}
+              <div key={proj.id} style={{ marginBottom: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                  <strong style={{ fontSize: 10, color: C.dark }}>{proj.name}</strong>
+                  {proj.link && <span style={{ fontSize: 8, color: C.accentMid }}>↗ {proj.link}</span>}
+                </div>
                 {proj.techStack && (
-                  <div style={{ fontSize: 8.5, color: ACCENT, fontWeight: 500 }}>{proj.techStack}</div>
+                  <div style={{ fontSize: 8.5, color: C.accent, fontWeight: 600, marginTop: 1 }}>{proj.techStack}</div>
                 )}
                 <Bullets items={proj.bulletPoints} />
               </div>
@@ -146,12 +171,13 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
 
         {skills.length > 0 && (
           <>
-            <SectionTitle>Skills</SectionTitle>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <SectionTitle>Technical Skills</SectionTitle>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {skills.map((s, i) => (
                 <span key={i} style={{
-                  fontSize: 8.5, padding: '2px 8px', background: LIGHT,
-                  borderRadius: 3, color: ACCENT, fontWeight: 600, border: `1px solid ${ACCENT}20`,
+                  fontSize: 8.5, padding: '2px 10px',
+                  background: C.accentLight, borderRadius: 12,
+                  color: C.accent, fontWeight: 600,
                 }}>
                   {s}
                 </span>
@@ -164,7 +190,7 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <>
             <SectionTitle>Certifications</SectionTitle>
             {extras.certifications.split('\n').filter(Boolean).map((c, i) => (
-              <div key={i} style={{ fontSize: 9.5, marginBottom: 1 }}>{c}</div>
+              <div key={i} style={{ fontSize: 9.5, marginBottom: 2 }}>{c}</div>
             ))}
           </>
         )}
@@ -178,7 +204,7 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <>
             <SectionTitle>Achievements</SectionTitle>
             {extras.achievements.split('\n').filter(Boolean).map((a, i) => (
-              <div key={i} style={{ fontSize: 9.5, marginBottom: 1 }}>{a}</div>
+              <div key={i} style={{ fontSize: 9.5, marginBottom: 2 }}>{a}</div>
             ))}
           </>
         )}
