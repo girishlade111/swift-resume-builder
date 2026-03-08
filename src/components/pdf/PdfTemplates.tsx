@@ -178,6 +178,7 @@ export function PdfLeftSidebar({ data }: { data: ResumeData }) {
       <Page size="A4" style={sidebarS.page}>
         {/* Sidebar */}
         <View style={sidebarS.sidebar}>
+          {p.profileImage ? <Image src={p.profileImage} style={{ width: 64, height: 64, borderRadius: 32, marginBottom: 8, alignSelf: 'center' as const }} /> : null}
           <Text style={sidebarS.sidebarName}>{p.fullName || 'Your Name'}</Text>
           {p.jobTitle ? <Text style={sidebarS.sidebarJobTitle}>{p.jobTitle}</Text> : null}
 
