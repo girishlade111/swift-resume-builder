@@ -42,6 +42,7 @@ export function PdfClassic({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={classicS.page}>
+        {p.profileImage ? <Image src={p.profileImage} style={{ width: 56, height: 56, borderRadius: 28, marginBottom: 6, alignSelf: 'center' as const }} /> : null}
         <Text style={classicS.name}>{p.fullName || 'Your Name'}</Text>
         {p.jobTitle ? <Text style={classicS.jobTitle}>{p.jobTitle}</Text> : null}
         <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ textAlign: 'center', marginTop: 4 }} />
