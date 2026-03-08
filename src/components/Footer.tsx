@@ -1,5 +1,5 @@
 /**
- * Footer — minimal branding footer.
+ * Footer — minimal branding line.
  */
 export default function Footer() {
   return (

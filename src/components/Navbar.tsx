@@ -1,5 +1,5 @@
 /**
- * Navbar — top navigation with logo and links.
+ * Navbar — top bar with logo and navigation links.
  */
 import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
