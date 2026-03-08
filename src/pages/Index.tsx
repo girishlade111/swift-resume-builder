@@ -20,7 +20,7 @@ const Index = () => {
                 <ResumeForm />
               </div>
               <div className="order-1 lg:order-2 lg:sticky lg:top-20 lg:self-start">
-                <ResumePreviewPlaceholder />
+                <ResumePreview />
               </div>
             </div>
           </div>
