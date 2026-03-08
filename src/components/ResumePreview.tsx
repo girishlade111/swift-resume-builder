@@ -1,6 +1,5 @@
 /**
- * ResumePreview — live A4 preview with template switching.
- * PDF export will be added in a later step.
+ * ResumePreview — live A4 preview with template switching and PDF download.
  */
 import { useResume } from '@/context/ResumeContext';
 import TemplateSelector from '@/components/TemplateSelector';
@@ -9,12 +8,17 @@ import CompactTemplate from '@/components/templates/CompactTemplate';
 import LeftSidebarTemplate from '@/components/templates/LeftSidebarTemplate';
 import ModernTemplate from '@/components/templates/ModernTemplate';
 import MinimalTemplate from '@/components/templates/MinimalTemplate';
-import { useRef, useEffect, useState } from 'react';
+import { PdfClassic } from '@/components/pdf/PdfTemplates';
+import { pdf } from '@react-pdf/renderer';
+import { useRef, useEffect, useState, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { Download, Loader2 } from 'lucide-react';
 
 export default function ResumePreview() {
   const { resume, selectedTemplate } = useResume();
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     const updateScale = () => {
@@ -38,9 +42,37 @@ export default function ResumePreview() {
     }
   };
 
+  const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9 _-]/g, '').replace(/\s+/g, '-').trim() || 'Resume';
+
+  const handleDownload = useCallback(async () => {
+    setDownloading(true);
+    try {
+      const blob = await pdf(<PdfClassic data={resume} />).toBlob();
+      const name = sanitize(resume.personal.fullName || 'Resume');
+      const title = resume.personal.jobTitle ? `-${sanitize(resume.personal.jobTitle)}` : '';
+      const filename = `${name}${title}-Resume.pdf`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('PDF generation failed:', err);
+    } finally {
+      setDownloading(false);
+    }
+  }, [resume]);
+
   return (
     <div className="space-y-3">
-      <TemplateSelector />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <TemplateSelector />
+        <Button onClick={handleDownload} disabled={downloading} size="sm">
+          {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
+          {downloading ? 'Generating...' : 'Download PDF'}
+        </Button>
+      </div>
       <div ref={containerRef} className="overflow-hidden rounded-lg border bg-card shadow-sm">
         <div
           className="bg-white origin-top-left"
