@@ -59,4 +59,26 @@ export interface ResumeData {
   extras: Extras;
 }
 
-export type TemplateName = 'classic' | 'compact' | 'left-sidebar' | 'modern' | 'minimal';
+export type TemplateName =
+  | 'classic'
+  | 'compact'
+  | 'left-sidebar'
+  | 'modern'
+  | 'minimal'
+  | 'professional'
+  | 'clean'
+  | 'executive'
+  | 'creative'
+  | 'elegant'
+  | 'bold'
+  | 'tech'
+  | 'gradient'
+  | 'infographic'
+  | 'timeline'
+  | 'magazine'
+  | 'monochrome'
+  | 'artistic'
+  | 'corporate'
+  | 'starter'
+  | 'academic'
+  | 'designer';

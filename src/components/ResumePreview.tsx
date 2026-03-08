@@ -8,11 +8,66 @@ import CompactTemplate from '@/components/templates/CompactTemplate';
 import LeftSidebarTemplate from '@/components/templates/LeftSidebarTemplate';
 import ModernTemplate from '@/components/templates/ModernTemplate';
 import MinimalTemplate from '@/components/templates/MinimalTemplate';
-import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal } from '@/components/pdf/PdfTemplates';
+import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate';
+import CleanTemplate from '@/components/templates/CleanTemplate';
+import {
+  ExecutiveTemplate, CreativeTemplate, ElegantTemplate, BoldTemplate,
+  TechTemplate, GradientTemplate, InfographicTemplate, TimelineTemplate,
+  MagazineTemplate, MonochromeTemplate, ArtisticTemplate, CorporateTemplate,
+  StarterTemplate, AcademicTemplate, DesignerTemplate,
+} from '@/components/templates/AllTemplates';
+import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGeneric } from '@/components/pdf/PdfTemplates';
 import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2 } from 'lucide-react';
+import { TemplateName } from '@/types/resume';
+
+const templateMap: Record<TemplateName, React.ComponentType<{ data: any }>> = {
+  classic: ClassicTemplate,
+  compact: CompactTemplate,
+  'left-sidebar': LeftSidebarTemplate,
+  modern: ModernTemplate,
+  minimal: MinimalTemplate,
+  professional: ProfessionalTemplate,
+  clean: CleanTemplate,
+  executive: ExecutiveTemplate,
+  creative: CreativeTemplate,
+  elegant: ElegantTemplate,
+  bold: BoldTemplate,
+  tech: TechTemplate,
+  gradient: GradientTemplate,
+  infographic: InfographicTemplate,
+  timeline: TimelineTemplate,
+  magazine: MagazineTemplate,
+  monochrome: MonochromeTemplate,
+  artistic: ArtisticTemplate,
+  corporate: CorporateTemplate,
+  starter: StarterTemplate,
+  academic: AcademicTemplate,
+  designer: DesignerTemplate,
+};
+
+// PDF color configs for generic templates
+const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight: string; text: string; muted: string }> = {
+  professional: { headerBg: '#1e40af', accent: '#1e40af', accentLight: '#dbeafe', text: '#1e293b', muted: '#64748b' },
+  clean: { headerBg: '#ffffff', accent: '#9ca3af', accentLight: '#f3f4f6', text: '#374151', muted: '#9ca3af' },
+  executive: { headerBg: '#1a1a1a', accent: '#9ca3af', accentLight: '#e5e7eb', text: '#1f2937', muted: '#6b7280' },
+  creative: { headerBg: '#134e4a', accent: '#d946ef', accentLight: '#fae8ff', text: '#1e293b', muted: '#64748b' },
+  elegant: { headerBg: '#6b1d3a', accent: '#c9a96e', accentLight: '#fdf6ee', text: '#2d2424', muted: '#7c6f6f' },
+  bold: { headerBg: '#000000', accent: '#f59e0b', accentLight: '#fefce8', text: '#171717', muted: '#525252' },
+  tech: { headerBg: '#0d1117', accent: '#58a6ff', accentLight: '#ddf4ff', text: '#24292f', muted: '#57606a' },
+  gradient: { headerBg: '#4f46e5', accent: '#7c3aed', accentLight: '#eef2ff', text: '#1e1b4b', muted: '#6366f1' },
+  infographic: { headerBg: '#155e75', accent: '#0891b2', accentLight: '#ecfeff', text: '#164e63', muted: '#6b7280' },
+  timeline: { headerBg: '#1e3a5f', accent: '#2563eb', accentLight: '#dbeafe', text: '#1e293b', muted: '#64748b' },
+  magazine: { headerBg: '#ffffff', accent: '#b45309', accentLight: '#faf5ef', text: '#292524', muted: '#78716c' },
+  monochrome: { headerBg: '#000000', accent: '#000000', accentLight: '#f5f5f5', text: '#222222', muted: '#666666' },
+  artistic: { headerBg: '#fff7ed', accent: '#c2410c', accentLight: '#fff7ed', text: '#431407', muted: '#9a3412' },
+  corporate: { headerBg: '#1e3a5f', accent: '#3b82f6', accentLight: '#dbeafe', text: '#1e293b', muted: '#64748b' },
+  starter: { headerBg: '#f0fdf4', accent: '#16a34a', accentLight: '#f0fdf4', text: '#14532d', muted: '#166534' },
+  academic: { headerBg: '#166534', accent: '#166534', accentLight: '#f0fdf4', text: '#052e16', muted: '#365314' },
+  designer: { headerBg: '#fdf2f8', accent: '#ec4899', accentLight: '#fce7f3', text: '#1e1b4b', muted: '#6b7280' },
+};
 
 export default function ResumePreview() {
   const { resume, selectedTemplate } = useResume();
@@ -33,22 +88,21 @@ export default function ResumePreview() {
   }, []);
 
   const renderTemplate = () => {
-    switch (selectedTemplate) {
-      case 'compact': return <CompactTemplate data={resume} />;
-      case 'left-sidebar': return <LeftSidebarTemplate data={resume} />;
-      case 'modern': return <ModernTemplate data={resume} />;
-      case 'minimal': return <MinimalTemplate data={resume} />;
-      default: return <ClassicTemplate data={resume} />;
-    }
+    const Component = templateMap[selectedTemplate] || ClassicTemplate;
+    return <Component data={resume} />;
   };
 
   const getPdfComponent = () => {
     switch (selectedTemplate) {
+      case 'classic': return <PdfClassic data={resume} />;
       case 'compact': return <PdfCompact data={resume} />;
       case 'left-sidebar': return <PdfLeftSidebar data={resume} />;
       case 'modern': return <PdfModern data={resume} />;
       case 'minimal': return <PdfMinimal data={resume} />;
-      default: return <PdfClassic data={resume} />;
+      default: {
+        const config = pdfConfigs[selectedTemplate];
+        return <PdfGeneric data={resume} colors={config || pdfConfigs.professional} />;
+      }
     }
   };
 
