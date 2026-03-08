@@ -1,7 +1,7 @@
 /**
  * ResumeForm — full accordion-based form editor for all resume sections.
  */
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useResume } from '@/context/ResumeContext';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Plus, Trash2, RotateCcw, FileText } from 'lucide-react';
+import { Plus, Trash2, RotateCcw, FileText, Upload, X } from 'lucide-react';
 import AtsTips from '@/components/AtsTips';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
