@@ -3,9 +3,9 @@ import Footer from '@/components/Footer';
 import { Mail, MessageSquare, Clock, HelpCircle } from 'lucide-react';
 
 const contactMethods = [
-  { icon: Mail, title: 'Email Us', desc: 'For general inquiries, partnerships, or support.', action: 'hello@ladestack.com', href: 'mailto:hello@ladestack.com' },
-  { icon: MessageSquare, title: 'Feedback', desc: 'Have a suggestion or found a bug? Let us know.', action: 'feedback@ladestack.com', href: 'mailto:feedback@ladestack.com' },
-  { icon: HelpCircle, title: 'Support', desc: 'Need help with the resume builder? We\'re here.', action: 'support@ladestack.com', href: 'mailto:support@ladestack.com' },
+  { icon: Mail, title: 'Email Us', desc: 'For general inquiries, partnerships, or support.', action: 'admin@ladestack.in', href: 'mailto:admin@ladestack.in' },
+  { icon: MessageSquare, title: 'Feedback', desc: 'Have a suggestion or found a bug? Let us know.', action: 'admin@ladestack.in', href: 'mailto:admin@ladestack.in' },
+  { icon: HelpCircle, title: 'Support', desc: 'Need help with the resume builder? We\'re here.', action: 'admin@ladestack.in', href: 'mailto:admin@ladestack.in' },
 ];
 
 const faqs = [
