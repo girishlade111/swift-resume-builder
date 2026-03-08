@@ -17,7 +17,7 @@ const Index = () => {
           <div className="mx-auto max-w-7xl px-4 py-6">
             <div className="grid gap-6 lg:grid-cols-2">
               <div className="order-2 lg:order-1">
-                <ResumeFormPlaceholder />
+                <ResumeForm />
               </div>
               <div className="order-1 lg:order-2 lg:sticky lg:top-20 lg:self-start">
                 <ResumePreviewPlaceholder />
