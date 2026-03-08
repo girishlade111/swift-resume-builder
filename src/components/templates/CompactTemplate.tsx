@@ -29,6 +29,9 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
   return (
     <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 10, lineHeight: 1.3, color: '#222', padding: '24px 28px' }}>
       <div style={{ textAlign: 'center', marginBottom: 4 }}>
+        {personal.profileImage && (
+          <img src={personal.profileImage} alt="" style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', margin: '0 auto 6px', display: 'block' }} />
+        )}
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{personal.fullName || 'Your Name'}</h1>
         {personal.jobTitle && <div style={{ fontSize: 11, color: '#555', marginTop: 1 }}>{personal.jobTitle}</div>}
         {contactParts.length > 0 && <div style={{ fontSize: 9, color: '#666', marginTop: 3 }}>{contactParts.join(' · ')}</div>}

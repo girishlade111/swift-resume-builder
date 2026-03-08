@@ -29,6 +29,9 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
   return (
     <div style={{ fontFamily: 'Inter, Arial, sans-serif', fontSize: 11, lineHeight: 1.5, color: '#333', padding: '40px 44px' }}>
       <div style={{ marginBottom: 16 }}>
+        {personal.profileImage && (
+          <img src={personal.profileImage} alt="" style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', marginBottom: 10 }} />
+        )}
         <h1 style={{ fontSize: 20, fontWeight: 400, margin: 0, letterSpacing: 1 }}>{personal.fullName || 'Your Name'}</h1>
         {personal.jobTitle && <div style={{ fontSize: 12, color: '#888', marginTop: 2, fontWeight: 300 }}>{personal.jobTitle}</div>}
         {contactParts.length > 0 && <div style={{ fontSize: 10, color: '#aaa', marginTop: 8 }}>{contactParts.join('  ·  ')}</div>}

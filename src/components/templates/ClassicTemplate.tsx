@@ -29,6 +29,9 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
   return (
     <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 11, lineHeight: 1.4, color: '#222', padding: '32px 36px' }}>
       <div style={{ textAlign: 'center', marginBottom: 6 }}>
+        {personal.profileImage && (
+          <img src={personal.profileImage} alt="" style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', margin: '0 auto 8px', display: 'block' }} />
+        )}
         <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, fontFamily: 'Georgia, serif' }}>{personal.fullName || 'Your Name'}</h1>
         {personal.jobTitle && <div style={{ fontSize: 13, color: '#555', marginTop: 2 }}>{personal.jobTitle}</div>}
         {contactParts.length > 0 && <div style={{ fontSize: 10, color: '#666', marginTop: 4 }}>{contactParts.join(' • ')}</div>}

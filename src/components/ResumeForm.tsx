@@ -1,7 +1,7 @@
 /**
  * ResumeForm — full accordion-based form editor for all resume sections.
  */
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useResume } from '@/context/ResumeContext';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Plus, Trash2, RotateCcw, FileText } from 'lucide-react';
+import { Plus, Trash2, RotateCcw, FileText, Upload, X } from 'lucide-react';
 import AtsTips from '@/components/AtsTips';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -30,7 +30,22 @@ export default function ResumeForm() {
   const ctx = useResume();
   const { resume, persistEnabled, togglePersist, resetToExample, resetToEmpty } = ctx;
   const [skillInput, setSkillInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      ctx.updatePersonal('profileImage', reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    ctx.updatePersonal('profileImage', '');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
   const handleSkillKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault();
@@ -91,6 +106,50 @@ export default function ResumeForm() {
         <AccordionItem value="personal" className="rounded-lg border bg-card px-4">
           <AccordionTrigger className="text-sm font-semibold">Personal Info</AccordionTrigger>
           <AccordionContent className="grid gap-3 pb-4 sm:grid-cols-2">
+            {/* Profile Image Upload */}
+            <div className="sm:col-span-2">
+              <Label className="text-xs font-medium">Profile Picture</Label>
+              <div className="flex items-center gap-3 mt-1.5">
+                {resume.personal.profileImage ? (
+                  <div className="relative">
+                    <img
+                      src={resume.personal.profileImage}
+                      alt="Profile"
+                      className="h-16 w-16 rounded-full object-cover border-2 border-border"
+                    />
+                    <button
+                      onClick={removeImage}
+                      className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center text-xs"
+                      aria-label="Remove profile picture"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center border-2 border-dashed border-border">
+                    <Upload className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                )}
+                <div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="h-3.5 w-3.5 mr-1" /> {resume.personal.profileImage ? 'Change' : 'Upload'}
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">JPG, PNG. Max 2MB recommended.</p>
+                </div>
+              </div>
+            </div>
             <Field label="Full Name *">
               <Input value={resume.personal.fullName} onChange={e => ctx.updatePersonal('fullName', e.target.value)} placeholder="John Doe" />
             </Field>

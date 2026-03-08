@@ -2,7 +2,7 @@
  * PDF Templates — all 5 templates for @react-pdf/renderer.
  * Matches the HTML templates: Classic, Compact, Left Sidebar, Modern, Minimal.
  */
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, View, Text, Image, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData } from '@/types/resume';
 
 /* ── Shared helpers ── */
@@ -42,6 +42,7 @@ export function PdfClassic({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={classicS.page}>
+        {p.profileImage ? <Image src={p.profileImage} style={{ width: 56, height: 56, borderRadius: 28, marginBottom: 6, alignSelf: 'center' as const }} /> : null}
         <Text style={classicS.name}>{p.fullName || 'Your Name'}</Text>
         {p.jobTitle ? <Text style={classicS.jobTitle}>{p.jobTitle}</Text> : null}
         <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ textAlign: 'center', marginTop: 4 }} />
@@ -106,6 +107,7 @@ export function PdfCompact({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={compactS.page}>
+        {p.profileImage ? <Image src={p.profileImage} style={{ width: 44, height: 44, borderRadius: 22, marginBottom: 4, alignSelf: 'center' as const }} /> : null}
         <Text style={compactS.name}>{p.fullName || 'Your Name'}</Text>
         {p.jobTitle ? <Text style={compactS.jobTitle}>{p.jobTitle}</Text> : null}
         <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ textAlign: 'center', marginTop: 3, fontSize: 8 }} />
@@ -176,6 +178,7 @@ export function PdfLeftSidebar({ data }: { data: ResumeData }) {
       <Page size="A4" style={sidebarS.page}>
         {/* Sidebar */}
         <View style={sidebarS.sidebar}>
+          {p.profileImage ? <Image src={p.profileImage} style={{ width: 64, height: 64, borderRadius: 32, marginBottom: 8, alignSelf: 'center' as const }} /> : null}
           <Text style={sidebarS.sidebarName}>{p.fullName || 'Your Name'}</Text>
           {p.jobTitle ? <Text style={sidebarS.sidebarJobTitle}>{p.jobTitle}</Text> : null}
 
@@ -263,10 +266,15 @@ export function PdfModern({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={modernS.page}>
-        <Text style={modernS.name}>{p.fullName || 'Your Name'}</Text>
-        {p.jobTitle ? <Text style={modernS.jobTitle}>{p.jobTitle}</Text> : null}
-        <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ marginTop: 6 }} />
-        <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
+        <View style={{ flexDirection: 'row' as const, alignItems: 'center' as const, gap: 12, marginBottom: 4 }}>
+          {p.profileImage ? <Image src={p.profileImage} style={{ width: 60, height: 60, borderRadius: 30 }} /> : null}
+          <View>
+            <Text style={modernS.name}>{p.fullName || 'Your Name'}</Text>
+            {p.jobTitle ? <Text style={modernS.jobTitle}>{p.jobTitle}</Text> : null}
+            <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ marginTop: 6 }} />
+            <ContactLine parts={[p.portfolioUrl, p.linkedinUrl, p.githubUrl].filter(Boolean)} />
+          </View>
+        </View>
 
         {summary ? <><Text style={modernS.section}>Summary</Text><Text>{summary}</Text></> : null}
 
@@ -320,6 +328,7 @@ export function PdfMinimal({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={minimalS.page}>
+        {p.profileImage ? <Image src={p.profileImage} style={{ width: 50, height: 50, borderRadius: 25, marginBottom: 8 }} /> : null}
         <Text style={minimalS.name}>{p.fullName || 'Your Name'}</Text>
         {p.jobTitle ? <Text style={minimalS.jobTitle}>{p.jobTitle}</Text> : null}
         <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ color: '#aaa', marginTop: 8 }} />
