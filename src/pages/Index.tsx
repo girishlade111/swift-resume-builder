@@ -4,7 +4,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ResumeForm from '@/components/ResumeForm';
-import ResumePreviewPlaceholder from '@/components/ResumePreviewPlaceholder';
+import ResumePreview from '@/components/ResumePreview';
 import InfoSection from '@/components/InfoSection';
 import { ResumeProvider } from '@/context/ResumeContext';
 
