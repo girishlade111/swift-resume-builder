@@ -21,7 +21,7 @@ export default function Navbar() {
             Why ATS-friendly?
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <a href="mailto:feedback@ladestack.com">Feedback</a>
+            <a href="mailto:support@ladestack.in">Feedback</a>
           </Button>
         </div>
       </div>

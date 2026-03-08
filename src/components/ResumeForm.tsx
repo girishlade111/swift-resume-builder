@@ -295,8 +295,8 @@ export default function ResumeForm() {
           <AccordionContent className="pb-4 space-y-3">
             <AtsTips
               tips={[
-                'Include both technical skills and tools.',
-                'Match keywords from the job posting.',
+                'Group similar skills and avoid keyword stuffing.',
+                'Use tools, frameworks, and domains that match your target role.',
                 'Keep it concise — 8-15 skills is ideal.',
               ]}
             />
