@@ -107,6 +107,7 @@ export function PdfCompact({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={compactS.page}>
+        {p.profileImage ? <Image src={p.profileImage} style={{ width: 44, height: 44, borderRadius: 22, marginBottom: 4, alignSelf: 'center' as const }} /> : null}
         <Text style={compactS.name}>{p.fullName || 'Your Name'}</Text>
         {p.jobTitle ? <Text style={compactS.jobTitle}>{p.jobTitle}</Text> : null}
         <ContactLine parts={[p.email, p.phone, p.location].filter(Boolean)} style={{ textAlign: 'center', marginTop: 3, fontSize: 8 }} />
