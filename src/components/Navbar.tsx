@@ -12,8 +12,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
-        <div className="flex items-center gap-2 font-bold text-lg">
-          <FileText className="h-5 w-5 text-primary" />
+        <div className="flex items-center gap-2 font-bold text-sm sm:text-lg whitespace-nowrap">
+          <FileText className="h-5 w-5 text-primary hidden sm:block" />
           Lade Stack Resume
         </div>
         <div className="flex items-center gap-2">
