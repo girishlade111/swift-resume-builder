@@ -1,5 +1,5 @@
 /**
- * Footer — detailed multi-section footer with links, resources, and branding.
+ * Footer — detailed multi-section footer with social links, resources, and branding.
  */
 import { Link } from 'react-router-dom';
 import { FileText, Github, Linkedin, Mail, Heart, Sparkles, Shield, Zap, Users, Instagram, Globe, CodepenIcon } from 'lucide-react';
