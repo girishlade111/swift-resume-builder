@@ -295,8 +295,8 @@ export default function ResumeForm() {
           <AccordionContent className="pb-4 space-y-3">
             <AtsTips
               tips={[
-                'Include both technical skills and tools.',
-                'Match keywords from the job posting.',
+                'Group similar skills and avoid keyword stuffing.',
+                'Use tools, frameworks, and domains that match your target role.',
                 'Keep it concise — 8-15 skills is ideal.',
               ]}
             />
@@ -307,7 +307,7 @@ export default function ResumeForm() {
                   className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
                 >
                   {skill}
-                  <button onClick={() => removeSkill(skill)} className="ml-0.5 hover:text-destructive">
+                  <button onClick={() => removeSkill(skill)} className="ml-0.5 hover:text-destructive" aria-label={`Remove ${skill}`}>
                     &times;
                   </button>
                 </span>
