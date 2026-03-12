@@ -1,12 +1,12 @@
 /**
- * InfoSection — static ATS educational content.
+ * InfoSection — mobile-first responsive static ATS educational content.
  */
 export default function InfoSection() {
   return (
-    <section id="ats-info" className="mx-auto max-w-3xl px-4 py-16">
-      <div className="rounded-xl border bg-card p-8 shadow-sm">
-        <h2 className="mb-4 text-2xl font-bold">Why ATS-friendly resumes matter</h2>
-        <div className="space-y-4 text-muted-foreground leading-relaxed">
+    <section id="ats-info" className="mx-auto w-full max-w-3xl px-4 py-12 sm:py-16">
+      <div className="rounded-xl border bg-card p-6 sm:p-8 shadow-sm">
+        <h2 className="mb-4 text-xl sm:text-2xl font-bold">Why ATS-friendly resumes matter</h2>
+        <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
           <p>
             An <strong className="text-foreground">Applicant Tracking System (ATS)</strong> is software that most employers use to automatically scan and rank resumes before a human ever reads them. Over 90% of large companies rely on an ATS to filter applicants.
           </p>

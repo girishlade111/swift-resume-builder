@@ -1,5 +1,5 @@
 /**
- * ResumePreview — live A4 preview with template switching and PDF download.
+ * ResumePreview — mobile-first responsive live A4 preview with template switching and PDF download.
  * Templates are lazy-loaded to reduce initial bundle size.
  */
 import { useResume } from '@/context/ResumeContext';
@@ -8,8 +8,9 @@ import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGener
 import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState, useCallback, lazy, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Eye } from 'lucide-react';
 import { TemplateName } from '@/types/resume';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Lazy-load all templates — only fetched when selected
 const lazyTemplate = (loader: () => Promise<{ default: React.ComponentType<any> }>) => lazy(loader);
@@ -65,12 +66,16 @@ export default function ResumePreview() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [downloading, setDownloading] = useState(false);
+  const [viewMode, setViewMode] = useState<'preview' | 'focus'>('preview');
 
   useEffect(() => {
     const updateScale = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
-        setScale(Math.min(containerWidth / 794, 1));
+        // On mobile, use more aggressive scaling
+        const isMobile = containerWidth < 640;
+        const targetWidth = isMobile ? containerWidth : Math.min(containerWidth, 794);
+        setScale(Math.min(targetWidth / 794, 1));
       }
     };
     updateScale();
@@ -81,7 +86,11 @@ export default function ResumePreview() {
   const renderTemplate = () => {
     const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
     return (
-      <Suspense fallback={<div style={{ width: 794, minHeight: 1123, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+      <Suspense fallback={
+        <div className="flex items-center justify-center" style={{ width: 794, minHeight: 1123 }}>
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      }>
         <Component data={resume} />
       </Suspense>
     );
@@ -125,14 +134,39 @@ export default function ResumePreview() {
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <TemplateSelector />
-        <Button onClick={handleDownload} disabled={downloading} size="sm">
-          {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
-          {downloading ? 'Generating...' : 'Download PDF'}
-        </Button>
+      {/* Controls - Stacked on mobile */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <TemplateSelector />
+        </div>
+        <div className="flex items-center gap-2">
+          {/* Mobile view toggle */}
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'preview' | 'focus')} className="sm:hidden">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="preview" className="text-xs">
+                <Eye className="h-3.5 w-3.5 mr-1" />
+                Preview
+              </TabsTrigger>
+              <TabsTrigger value="focus" className="text-xs">
+                Full
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <Button onClick={handleDownload} disabled={downloading} size="sm" className="shrink-0">
+            {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
+            <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download PDF'}</span>
+            <span className="sm:hidden">{downloading ? '...' : 'PDF'}</span>
+          </Button>
+        </div>
       </div>
-      <div ref={containerRef} className="overflow-hidden rounded-lg border bg-card shadow-sm">
+
+      {/* Preview Container */}
+      <div 
+        ref={containerRef} 
+        className={`overflow-hidden rounded-lg border bg-card shadow-sm ${
+          viewMode === 'focus' ? 'fixed inset-0 z-50 m-4 rounded-none' : ''
+        }`}
+      >
         <div
           className="bg-white origin-top-left"
           style={{
@@ -146,6 +180,11 @@ export default function ResumePreview() {
           {renderTemplate()}
         </div>
       </div>
+
+      {/* Mobile hint */}
+      <p className="text-xs text-muted-foreground text-center sm:hidden">
+        Pinch to zoom or use full view mode
+      </p>
     </div>
   );
 }

@@ -1,13 +1,14 @@
 /**
- * TemplateSelector — full gallery dialog showing all 22 templates in a grid.
+ * TemplateSelector — mobile-first responsive full gallery dialog showing all 22 templates in a grid.
  */
 import { useResume } from '@/context/ResumeContext';
 import { TemplateName } from '@/types/resume';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { LayoutGrid } from 'lucide-react';
+import { LayoutGrid, Grid3X3, Grid } from 'lucide-react';
 import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface TemplateInfo {
   name: TemplateName;
@@ -52,10 +53,11 @@ function TemplateThumbnail({ t, isSelected }: { t: TemplateInfo; isSelected: boo
   return (
     <div style={{
       width: '100%', aspectRatio: '210 / 297',
-      borderRadius: 4, overflow: 'hidden',
+      borderRadius: 6, overflow: 'hidden',
       border: isSelected ? '2px solid hsl(var(--primary))' : '1px solid #e5e7eb',
       background: t.colors[1],
       position: 'relative',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
     }}>
       {t.layout === 'sidebar' ? (
         <div style={{ display: 'flex', height: '100%' }}>
@@ -88,11 +90,11 @@ function TemplateThumbnail({ t, isSelected }: { t: TemplateInfo; isSelected: boo
       {isSelected && (
         <div style={{
           position: 'absolute', top: 4, right: 4,
-          width: 14, height: 14, borderRadius: '50%',
+          width: 20, height: 20, borderRadius: '50%',
           background: 'hsl(var(--primary))',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <span style={{ color: '#fff', fontSize: 8, fontWeight: 700 }}>✓</span>
+          <span style={{ color: '#fff', fontSize: 10, fontWeight: 700 }}>✓</span>
         </div>
       )}
     </div>
@@ -103,29 +105,35 @@ export default function TemplateSelector() {
   const { selectedTemplate, setSelectedTemplate } = useResume();
   const [open, setOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const filtered = activeCategory === 'All' ? templates : templates.filter(t => t.category === activeCategory);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button variant="outline" size="sm" className="gap-2 shrink-0">
           <LayoutGrid className="h-4 w-4" />
-          Templates ({templates.find(t => t.name === selectedTemplate)?.label || 'Classic'})
+          <span className="hidden sm:inline">Templates</span>
+          <span className="sm:hidden">Templates</span>
+          <span className="text-xs text-muted-foreground ml-1">
+            ({templates.find(t => t.name === selectedTemplate)?.label || 'Classic'})
+          </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Choose a Template</DialogTitle>
+      <DialogContent className="max-w-[95vw] sm:max-w-3xl max-h-[85vh] overflow-hidden flex flex-col w-[95vw] sm:w-auto">
+        <DialogHeader className="flex-shrink-0">
+          <DialogTitle className="text-base sm:text-lg">Choose a Template</DialogTitle>
         </DialogHeader>
-        {/* Category tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-1 flex-shrink-0">
+        
+        {/* Category tabs - Scrollable on mobile */}
+        <div className="flex gap-2 overflow-x-auto pb-2 flex-shrink-0 scrollbar-thin">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={cn(
-                'rounded-full px-3 py-1 text-xs font-medium transition-all whitespace-nowrap',
+                'rounded-full px-3 py-1.5 text-xs sm:text-sm font-medium transition-all whitespace-nowrap',
                 activeCategory === cat
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -135,9 +143,29 @@ export default function TemplateSelector() {
             </button>
           ))}
         </div>
-        {/* Grid */}
-        <div className="overflow-y-auto flex-1 pr-1">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 py-2">
+
+        {/* View mode toggle - Mobile only */}
+        <div className="flex items-center justify-end gap-2 flex-shrink-0 sm:hidden">
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'list')}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="grid" className="text-xs">
+                <Grid3X3 className="h-3.5 w-3.5" />
+              </TabsTrigger>
+              <TabsTrigger value="list" className="text-xs">
+                <Grid className="h-3.5 w-3.5" />
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
+        {/* Grid - Responsive columns based on screen size */}
+        <div className="overflow-y-auto flex-1 pr-1 -mr-1">
+          <div className={cn(
+            "gap-3 py-2",
+            viewMode === 'list' 
+              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4"
+              : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+          )}>
             {filtered.map(t => (
               <button
                 key={t.name}
@@ -146,7 +174,7 @@ export default function TemplateSelector() {
               >
                 <TemplateThumbnail t={t} isSelected={selectedTemplate === t.name} />
                 <p className={cn(
-                  'text-[10px] font-medium mt-1 text-center truncate',
+                  'text-[10px] sm:text-xs font-medium mt-1.5 text-center truncate px-1',
                   selectedTemplate === t.name ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
                 )}>
                   {t.label}

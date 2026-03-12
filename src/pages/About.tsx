@@ -38,7 +38,7 @@ export default function About() {
       <Navbar />
       <main className="flex-1">
         {/* Hero */}
-        <section className="mx-auto max-w-4xl px-4 py-16 text-center">
+        <section className="mx-auto w-full max-w-4xl px-4 py-12 sm:py-16 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-6">
             <Zap className="h-4 w-4" /> Building the future of career tools
           </div>
