@@ -468,15 +468,57 @@ swift-resume-builder/
 
 ## 🌐 Deployment
 
-### **Option 1: Vercel (Recommended)**
+### **Option 1: Vercel (Recommended) ⭐**
+
+Vercel provides the easiest deployment with automatic builds and previews.
+
+#### **Deploy via Vercel CLI:**
 
 ```bash
-# Install Vercel CLI
+# Install Vercel CLI globally
 npm i -g vercel
 
-# Deploy
+# Login to Vercel
+vercel login
+
+# Deploy (first time)
 vercel
+
+# Deploy to production
+vercel --prod
 ```
+
+#### **Deploy via GitHub Integration:**
+
+1. Push your code to GitHub
+2. Visit [vercel.com](https://vercel.com)
+3. Click **"New Project"**
+4. Import your GitHub repository
+5. Vercel auto-detects Vite settings
+6. Click **"Deploy"**
+
+#### **Vercel Project Settings:**
+
+| Setting | Value |
+|---------|-------|
+| **Framework** | Vite |
+| **Build Command** | `npm run build` |
+| **Output Directory** | `dist` |
+| **Install Command** | `npm install` |
+| **Node Version** | 20.x |
+
+#### **Environment Variables:**
+
+No environment variables required! The app runs entirely client-side.
+
+#### **Custom Domain:**
+
+1. Go to Project Settings → Domains
+2. Add your custom domain
+3. Update DNS records as instructed
+4. SSL is automatically configured
+
+---
 
 ### **Option 2: Netlify**
 
