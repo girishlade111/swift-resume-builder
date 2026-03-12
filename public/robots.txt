@@ -1,5 +1,66 @@
+# robots.txt for Lade Stack Resume Builder
+# https://ladestack.com/robots.txt
+
+# ============================================
+# Welcome all crawlers
+# ============================================
 User-agent: *
 Allow: /
-Disallow:
 
+# ============================================
+# Crawl-delay suggestion (optional)
+# ============================================
+Crawl-delay: 1
+
+# ============================================
+# Sitemap location
+# ============================================
 Sitemap: https://ladestack.com/sitemap.xml
+
+# ============================================
+# Google Specific
+# ============================================
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /
+
+# Google Mobile
+User-agent: Googlebot-Mobile
+Allow: /
+
+# ============================================
+# Bing Specific
+# ============================================
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ============================================
+# Other Major Search Engines
+# ============================================
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+# ============================================
+# Disallow paths (if any private areas exist)
+# Currently none - all content is public
+# ============================================

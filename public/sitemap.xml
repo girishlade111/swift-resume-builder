@@ -1,69 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- ============================================
+       MAIN PAGE - Resume Builder
+       Priority: Highest (1.0) - Core functionality
+       ============================================ -->
   <url>
     <loc>https://ladestack.com/</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://ladestack.com/about</loc>
-    <lastmod>2026-03-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ladestack.com/blog</loc>
-    <lastmod>2026-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ladestack.com/careers</loc>
-    <lastmod>2026-03-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ladestack.com/contact</loc>
-    <lastmod>2026-03-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+
+  <!-- ============================================
+       RESOURCE PAGES - High Priority
+       ============================================ -->
   <url>
     <loc>https://ladestack.com/resume-guide</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ladestack.com/images/resume-guide-og.png</image:loc>
+      <image:title>Resume Writing Guide</image:title>
+    </image:image>
   </url>
+
   <url>
     <loc>https://ladestack.com/cover-letter-tips</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ladestack.com/images/cover-letter-og.png</image:loc>
+      <image:title>Cover Letter Tips</image:title>
+    </image:image>
   </url>
+
   <url>
     <loc>https://ladestack.com/interview-prep</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ladestack.com/images/interview-prep-og.png</image:loc>
+      <image:title>Interview Preparation Guide</image:title>
+    </image:image>
   </url>
+
+  <!-- ============================================
+       COMPANY PAGES - Medium Priority
+       ============================================ -->
+  <url>
+    <loc>https://ladestack.com/about</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ladestack.com/images/about-og.png</image:loc>
+      <image:title>About Lade Stack</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://ladestack.com/blog</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ladestack.com/images/blog-og.png</image:loc>
+      <image:title>Lade Stack Blog</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://ladestack.com/careers</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ladestack.com/contact</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ============================================
+       LEGAL PAGES - Standard Priority
+       ============================================ -->
   <url>
     <loc>https://ladestack.com/privacy</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
+
   <url>
     <loc>https://ladestack.com/terms</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
+
   <url>
     <loc>https://ladestack.com/cookies</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2025-03-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
+
 </urlset>
