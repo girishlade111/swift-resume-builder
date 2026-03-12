@@ -361,13 +361,13 @@ Your professional summary should include 3-5 of your most important keywords:
 Organize skills by category for both ATS and human readers:
 
 **Example:**
-```
+\`\`\`
 Technical Skills:
 - Languages: Python, JavaScript, SQL, Java
 - Frameworks: React, Django, Flask, Node.js
 - Tools: Git, Docker, AWS, Jenkins
 - Databases: PostgreSQL, MongoDB, Redis
-```
+\`\`\`
 
 ### Experience Bullet Points
 
