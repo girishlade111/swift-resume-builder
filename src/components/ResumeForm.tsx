@@ -62,9 +62,9 @@ export default function ResumeForm() {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Top controls */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Top controls - Better mobile layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2">
         <div className="flex items-center gap-2">
           <Switch checked={persistEnabled} onCheckedChange={togglePersist} id="persist" />
           <Label htmlFor="persist" className="text-xs text-muted-foreground cursor-pointer">
@@ -72,13 +72,13 @@ export default function ResumeForm() {
           </Label>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={resetToExample}>
-            <FileText className="h-3.5 w-3.5 mr-1" /> Example
+          <Button variant="outline" size="sm" onClick={resetToExample} className="shrink-0">
+            <FileText className="h-3.5 w-3.5 sm:mr-1" /> <span className="hidden sm:inline">Example</span>
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" size="sm">
-                <RotateCcw className="h-3.5 w-3.5 mr-1" /> Clear
+              <Button variant="outline" size="sm" className="shrink-0">
+                <RotateCcw className="h-3.5 w-3.5 sm:mr-1" /> <span className="hidden sm:inline">Clear</span>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -100,12 +100,12 @@ export default function ResumeForm() {
       <Accordion
         type="multiple"
         defaultValue={['personal', 'summary', 'experience', 'education', 'projects', 'skills']}
-        className="space-y-2"
+        className="space-y-3 sm:space-y-4"
       >
         {/* ── Personal Info ── */}
-        <AccordionItem value="personal" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Personal Info</AccordionTrigger>
-          <AccordionContent className="grid gap-3 pb-4 sm:grid-cols-2">
+        <AccordionItem value="personal" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Personal Info</AccordionTrigger>
+          <AccordionContent className="grid gap-3 pb-3 sm:pb-4 sm:grid-cols-2">
             {/* Profile Image Upload */}
             <div className="sm:col-span-2">
               <Label className="text-xs font-medium">Profile Picture</Label>
@@ -178,9 +178,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Summary ── */}
-        <AccordionItem value="summary" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Summary</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-2">
+        <AccordionItem value="summary" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Summary</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-2">
             <Textarea
               value={resume.summary}
               onChange={e => ctx.updateSummary(e.target.value)}
@@ -194,9 +194,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Experience ── */}
-        <AccordionItem value="experience" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Experience</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-4">
+        <AccordionItem value="experience" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Experience</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-4">
             <AtsTips
               tips={[
                 'Start bullets with action verbs (built, led, improved).',
@@ -264,9 +264,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Education ── */}
-        <AccordionItem value="education" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Education</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-4">
+        <AccordionItem value="education" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Education</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-4">
             {resume.education.map((edu) => (
               <div key={edu.id} className="space-y-3 rounded-lg border p-3 relative">
                 <Button
@@ -306,9 +306,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Projects ── */}
-        <AccordionItem value="projects" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Projects</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-4">
+        <AccordionItem value="projects" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Projects</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-4">
             {resume.projects.map((proj) => (
               <div key={proj.id} className="space-y-3 rounded-lg border p-3 relative">
                 <Button
@@ -349,9 +349,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Skills ── */}
-        <AccordionItem value="skills" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Skills</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-3">
+        <AccordionItem value="skills" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Skills</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-3">
             <AtsTips
               tips={[
                 'Group similar skills and avoid keyword stuffing.',
@@ -382,9 +382,9 @@ export default function ResumeForm() {
         </AccordionItem>
 
         {/* ── Extras ── */}
-        <AccordionItem value="extras" className="rounded-lg border bg-card px-4">
-          <AccordionTrigger className="text-sm font-semibold">Extras (optional)</AccordionTrigger>
-          <AccordionContent className="pb-4 space-y-3">
+        <AccordionItem value="extras" className="rounded-lg border bg-card px-3 sm:px-4">
+          <AccordionTrigger className="text-sm font-semibold py-3 sm:py-4">Extras (optional)</AccordionTrigger>
+          <AccordionContent className="pb-3 sm:pb-4 space-y-3">
             <Field label="Certifications">
               <Textarea
                 value={resume.extras.certifications}

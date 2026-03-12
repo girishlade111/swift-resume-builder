@@ -1,14 +1,14 @@
 /**
  * ResumePreview — mobile-first responsive live A4 preview with template switching and PDF download.
- * Templates are lazy-loaded to reduce initial bundle size.
+ * Optimized for smooth performance and better mobile UX.
  */
 import { useResume } from '@/context/ResumeContext';
 import TemplateSelector from '@/components/TemplateSelector';
 import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGeneric } from '@/components/pdf/PdfTemplates';
 import { pdf } from '@react-pdf/renderer';
-import { useRef, useEffect, useState, useCallback, lazy, Suspense } from 'react';
+import { useRef, useEffect, useState, useCallback, lazy, Suspense, memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Download, Loader2, Eye } from 'lucide-react';
+import { Download, Loader2, Eye, Maximize2, Minimize2 } from 'lucide-react';
 import { TemplateName } from '@/types/resume';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -61,40 +61,56 @@ const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight
   designer: { headerBg: '#fdf2f8', accent: '#ec4899', accentLight: '#fce7f3', text: '#1e1b4b', muted: '#6b7280' },
 };
 
+// Memoized template renderer for performance
+const TemplateRenderer = memo(({ selectedTemplate, resume }: { selectedTemplate: TemplateName; resume: any }) => {
+  const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center" style={{ width: 794, minHeight: 1123 }}>
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    }>
+      <Component data={resume} />
+    </Suspense>
+  );
+});
+
+TemplateRenderer.displayName = 'TemplateRenderer';
+
 export default function ResumePreview() {
   const { resume, selectedTemplate } = useResume();
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [downloading, setDownloading] = useState(false);
   const [viewMode, setViewMode] = useState<'preview' | 'focus'>('preview');
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  // Optimized scale calculation with debounce
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const updateScale = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
-        // On mobile, use more aggressive scaling
-        const isMobile = containerWidth < 640;
-        const targetWidth = isMobile ? containerWidth : Math.min(containerWidth, 794);
-        setScale(Math.min(targetWidth / 794, 1));
-      }
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (containerRef.current) {
+          const containerWidth = containerRef.current.clientWidth;
+          const isMobile = containerWidth < 640;
+          const padding = isMobile ? 32 : 48; // Account for padding
+          const targetWidth = Math.min(containerWidth - padding, 794);
+          setScale(Math.min(targetWidth / 794, 1));
+        }
+      }, 100);
     };
+    
     updateScale();
     window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
+    setIsLoaded(true);
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      window.removeEventListener('resize', updateScale);
+    };
   }, []);
-
-  const renderTemplate = () => {
-    const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
-    return (
-      <Suspense fallback={
-        <div className="flex items-center justify-center" style={{ width: 794, minHeight: 1123 }}>
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      }>
-        <Component data={resume} />
-      </Suspense>
-    );
-  };
 
   const getPdfComponent = () => {
     switch (selectedTemplate) {
@@ -133,10 +149,10 @@ export default function ResumePreview() {
   }, [resume, selectedTemplate]);
 
   return (
-    <div className="space-y-3">
-      {/* Controls - Stacked on mobile */}
+    <div className="space-y-4">
+      {/* Controls - Better spacing on mobile */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <TemplateSelector />
         </div>
         <div className="flex items-center gap-2">
@@ -148,43 +164,76 @@ export default function ResumePreview() {
                 Preview
               </TabsTrigger>
               <TabsTrigger value="focus" className="text-xs">
-                Full
+                {viewMode === 'focus' ? (
+                  <><Minimize2 className="h-3.5 w-3.5 mr-1" /> Close</>
+                ) : (
+                  <><Maximize2 className="h-3.5 w-3.5 mr-1" /> Full</>
+                )}
               </TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button onClick={handleDownload} disabled={downloading} size="sm" className="shrink-0">
-            {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
+          <Button 
+            onClick={handleDownload} 
+            disabled={downloading} 
+            size="sm" 
+            className="shrink-0 bg-primary hover:bg-primary/90"
+          >
+            {downloading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-1" />
+            ) : (
+              <Download className="h-4 w-4 mr-1" />
+            )}
             <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download PDF'}</span>
             <span className="sm:hidden">{downloading ? '...' : 'PDF'}</span>
           </Button>
         </div>
       </div>
 
-      {/* Preview Container */}
+      {/* Preview Container - Better mobile padding and spacing */}
       <div 
         ref={containerRef} 
-        className={`overflow-hidden rounded-lg border bg-card shadow-sm ${
-          viewMode === 'focus' ? 'fixed inset-0 z-50 m-4 rounded-none' : ''
+        className={`overflow-hidden rounded-lg border bg-card shadow-sm transition-all duration-300 ${
+          viewMode === 'focus' 
+            ? 'fixed inset-0 z-50 m-0 rounded-none bg-background p-4 sm:p-6' 
+            : 'p-3 sm:p-4'
         }`}
       >
-        <div
-          className="bg-white origin-top-left"
-          style={{
-            width: 794,
-            minHeight: 1123,
-            transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-            marginBottom: `${1123 * (scale - 1)}px`,
-          }}
-        >
-          {renderTemplate()}
+        {/* Loading skeleton */}
+        {!isLoaded && (
+          <div className="animate-pulse">
+            <div className="h-4 bg-muted rounded w-3/4 mb-4" />
+            <div className="h-4 bg-muted rounded w-1/2 mb-4" />
+            <div className="h-64 bg-muted rounded" />
+          </div>
+        )}
+        
+        {/* Template Preview */}
+        <div className="transition-transform duration-200">
+          <div
+            className="bg-white origin-top-left mx-auto"
+            style={{
+              width: 794,
+              minHeight: 1123,
+              transform: `scale(${scale})`,
+              transformOrigin: 'top left',
+              marginBottom: `${1123 * (scale - 1)}px`,
+            }}
+          >
+            <TemplateRenderer selectedTemplate={selectedTemplate} resume={resume} />
+          </div>
         </div>
       </div>
 
-      {/* Mobile hint */}
-      <p className="text-xs text-muted-foreground text-center sm:hidden">
-        Pinch to zoom or use full view mode
-      </p>
+      {/* Mobile helper text */}
+      <div className="text-center space-y-2 sm:hidden">
+        <p className="text-xs text-muted-foreground">
+          Scroll horizontally to see full width
+        </p>
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          Live updating as you type
+        </div>
+      </div>
     </div>
   );
 }
