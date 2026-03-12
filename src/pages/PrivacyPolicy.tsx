@@ -95,7 +95,7 @@ const sections = [
   },
   {
     icon: AlertCircle,
-    title: '5. Children's Privacy',
+    title: '5. Childrens Privacy',
     content: `Lade Stack is not directed at children under the age of 13, and we do not knowingly collect any information from children under 13.
 
 **Our Commitment:**
