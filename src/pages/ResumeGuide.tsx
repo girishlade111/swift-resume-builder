@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BookOpen, CheckCircle, AlertTriangle, Lightbulb } from 'lucide-react';
+import { useEffect } from 'react';
 
 const steps = [
   {
@@ -140,10 +141,50 @@ const dosDonts = {
 };
 
 export default function ResumeGuide() {
+  useEffect(() => {
+    // Set page-specific meta tags
+    document.title = 'Resume Writing Guide 2026 | ATS Tips & Examples | Lade Stack';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Complete guide to writing ATS-friendly resumes with step-by-step instructions, examples, and expert tips for 2026.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Write an ATS-Friendly Resume",
+            "description": "Step-by-step guide to creating a professional resume that passes ATS systems and impresses recruiters.",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://ladestack.com/images/resume-guide-og.png",
+              "width": "1200",
+              "height": "630"
+            },
+            "totalTime": "PT15M",
+            "estimatedCost": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "USD"
+            },
+            "step": steps.map((step, index) => ({
+              "@type": "HowToStep",
+              "position": index + 1,
+              "name": step.title,
+              "text": step.content.replace(/\*\*/g, '').replace(/✅/g, '').replace(/❌/g, '').split('\n')[0]
+            })),
+            "author": {
+              "@type": "Organization",
+              "name": "Lade Stack",
+              "url": "https://ladestack.com/"
+            }
+          })}
+        </script>
         <section className="mx-auto max-w-3xl px-4 py-16">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">

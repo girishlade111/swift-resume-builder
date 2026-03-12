@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { PenTool, FileText, Lightbulb } from 'lucide-react';
+import { useEffect } from 'react';
 
 const sections = [
   {
@@ -124,6 +125,14 @@ Best regards,
 [Phone] | [Email] | [LinkedIn URL]`;
 
 export default function CoverLetterTips() {
+  useEffect(() => {
+    document.title = 'Cover Letter Tips & Template 2026 | Lade Stack';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Learn how to write a compelling cover letter with our step-by-step guide, examples, and free template. ATS-friendly formatting tips for 2026.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

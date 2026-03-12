@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Mic, CheckCircle, AlertTriangle, Star, MessageSquare, Lightbulb, Target } from 'lucide-react';
+import { useEffect } from 'react';
 
 const commonQuestions = [
   {
@@ -104,6 +105,14 @@ const dosDonts = {
 };
 
 export default function InterviewPrep() {
+  useEffect(() => {
+    document.title = 'Interview Preparation Guide | Common Questions & Tips | Lade Stack';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Master your job interview with our comprehensive guide. Learn the STAR method, common interview questions with example answers, and expert tips for 2026.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

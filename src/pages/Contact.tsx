@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Mail, MessageSquare, Clock, HelpCircle } from 'lucide-react';
+import { useEffect } from 'react';
 
 const contactMethods = [
   { icon: Mail, title: 'Email Us', desc: 'For general inquiries, partnerships, or support.', action: 'admin@ladestack.in', href: 'mailto:admin@ladestack.in' },
@@ -17,6 +18,14 @@ const faqs = [
 ];
 
 export default function Contact() {
+  useEffect(() => {
+    document.title = 'Contact Us | Lade Stack Support';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Get in touch with Lade Stack. Email us for support, feedback, or partnerships. We respond within 24 hours.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { useEffect } from 'react';
 
 const posts = [
   {
@@ -48,10 +49,54 @@ const posts = [
 ];
 
 export default function Blog() {
+  useEffect(() => {
+    // Set page-specific meta tags
+    document.title = 'Resume & Career Blog | Job Search Tips | Lade Stack';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Expert advice on resume writing, ATS optimization, cover letters, and interview prep. Weekly articles to help you land your dream job.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "name": "Lade Stack Career Blog",
+            "description": "Expert advice on resume writing, job searching, and navigating ATS systems.",
+            "url": "https://ladestack.com/blog",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Lade Stack",
+              "url": "https://ladestack.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://ladestack.com/logo.png"
+              }
+            },
+            "blogPost": posts.map(post => ({
+              "@type": "BlogPosting",
+              "headline": post.title,
+              "description": post.excerpt,
+              "articleSection": post.category,
+              "wordCount": parseInt(post.readTime) * 200,
+              "timeRequired": `PT${post.readTime}M`,
+              "author": {
+                "@type": "Organization",
+                "name": "Lade Stack"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Lade Stack",
+                "url": "https://ladestack.com/"
+              }
+            }))
+          })}
+        </script>
         <section className="mx-auto max-w-4xl px-4 py-16">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">Blog & Career Resources</h1>

@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Users, Target, Lightbulb, Heart, Globe, Shield } from 'lucide-react';
+import { useEffect } from 'react';
 
 const values = [
   { icon: Heart, title: 'Free Forever', desc: 'We believe everyone deserves access to professional resume tools regardless of their financial situation. No hidden fees, no premium tiers, no paywalls.' },
@@ -11,6 +12,14 @@ const values = [
 
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About Lade Stack | Free Resume Builder Mission';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Learn about Lade Stack\'s mission to provide free, privacy-focused, ATS-friendly resume building tools to job seekers worldwide.');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
