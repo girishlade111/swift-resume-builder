@@ -5,12 +5,6 @@ import { Link } from 'react-router-dom';
 import { FileText, Github, Linkedin, Mail, Heart, Sparkles, Shield, Zap, Users, Instagram, Globe, CodepenIcon } from 'lucide-react';
 
 const footerLinks = {
-  product: [
-    { label: 'Resume Builder', href: '/' },
-    { label: 'Templates Gallery', href: '/' },
-    { label: 'ATS Checker', href: '/#ats-info' },
-    { label: 'PDF Export', href: '/' },
-  ],
   resources: [
     { label: 'Resume Writing Guide', href: '/resume-guide' },
     { label: 'ATS Tips & Tricks', href: '/#ats-info' },
@@ -68,7 +62,7 @@ export default function Footer() {
 
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-4 py-12">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
@@ -76,7 +70,7 @@ export default function Footer() {
               <span className="text-xl font-bold text-foreground">Lade Stack</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-sm">
-              Build professional, ATS-friendly resumes in minutes. Our free resume builder offers 22+ 
+              Build professional, ATS-friendly resumes in minutes. Our free resume builder offers 22+
               templates with live preview and instant PDF export — no signup, no watermarks, no limits.
             </p>
             <div className="flex items-center gap-3">
@@ -103,15 +97,6 @@ export default function Footer() {
           </div>
 
           {/* Link Columns */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wider">Product</h3>
-            <ul className="space-y-2.5">
-              {footerLinks.product.map((link) => (
-                <li key={link.label}><FooterLink href={link.href}>{link.label}</FooterLink></li>
-              ))}
-            </ul>
-          </div>
-
           <div>
             <h3 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wider">Resources</h3>
             <ul className="space-y-2.5">
