@@ -48,12 +48,18 @@ export interface Extras {
 export interface ResumeSettings {
   accentColor: string;
   fontFamily: string;
+  fontSize: number;
+  lineHeight: number;
+  sectionSpacing: number;
   visibleSections: Record<string, boolean>;
 }
 
 export const DEFAULT_SETTINGS: ResumeSettings = {
   accentColor: '#2563eb',
   fontFamily: 'Inter',
+  fontSize: 10,
+  lineHeight: 1.5,
+  sectionSpacing: 20,
   visibleSections: {
     summary: true,
     experience: true,
