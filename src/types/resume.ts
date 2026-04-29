@@ -1,7 +1,3 @@
-/**
- * Resume data model — all TypeScript types used across form, preview, and PDF.
- */
-
 export interface PersonalInfo {
   fullName: string;
   jobTitle: string;
@@ -49,6 +45,45 @@ export interface Extras {
   achievements: string;
 }
 
+export interface ResumeSettings {
+  accentColor: string;
+  fontFamily: string;
+  visibleSections: Record<string, boolean>;
+}
+
+export const DEFAULT_SETTINGS: ResumeSettings = {
+  accentColor: '#2563eb',
+  fontFamily: 'Inter',
+  visibleSections: {
+    summary: true,
+    experience: true,
+    education: true,
+    projects: true,
+    skills: true,
+    extras: true,
+  },
+};
+
+export const ACCENT_COLORS = [
+  { name: 'Blue', value: '#2563eb' },
+  { name: 'Teal', value: '#0d9488' },
+  { name: 'Purple', value: '#7c3aed' },
+  { name: 'Rose', value: '#e11d48' },
+  { name: 'Amber', value: '#d97706' },
+  { name: 'Emerald', value: '#059669' },
+  { name: 'Slate', value: '#475569' },
+  { name: 'Red', value: '#dc2626' },
+];
+
+export const FONT_FAMILIES = [
+  { name: 'Inter', value: 'Inter, system-ui, sans-serif' },
+  { name: 'Georgia', value: 'Georgia, "Times New Roman", serif' },
+  { name: 'Roboto', value: 'Roboto, "Helvetica Neue", sans-serif' },
+  { name: 'Playfair Display', value: '"Playfair Display", Georgia, serif' },
+  { name: 'Source Sans', value: '"Source Sans 3", "Source Sans Pro", sans-serif' },
+  { name: 'Merriweather', value: 'Merriweather, Georgia, serif' },
+];
+
 export interface ResumeData {
   personal: PersonalInfo;
   summary: string;
@@ -57,6 +92,7 @@ export interface ResumeData {
   projects: Project[];
   skills: string[];
   extras: Extras;
+  settings?: ResumeSettings;
 }
 
 export type TemplateName =
@@ -81,4 +117,14 @@ export type TemplateName =
   | 'corporate'
   | 'starter'
   | 'academic'
-  | 'designer';
+  | 'designer'
+  | 'swiss'
+  | 'metro'
+  | 'luxe'
+  | 'nordic'
+  | 'architect'
+  | 'editorial'
+  | 'brutalist'
+  | 'glass'
+  | 'neon'
+  | 'pixel';
