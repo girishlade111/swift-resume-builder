@@ -1,18 +1,13 @@
-/**
- * ResumePreview — mobile-first responsive live A4 preview with template switching and PDF download.
- * Optimized for smooth performance and better mobile UX.
- */
 import { useResume } from '@/context/ResumeContext';
 import TemplateSelector from '@/components/TemplateSelector';
 import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGeneric } from '@/components/pdf/PdfTemplates';
 import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState, useCallback, lazy, Suspense, memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Download, Loader2, Eye, Maximize2, Minimize2 } from 'lucide-react';
+import { Download, Loader2, Eye, Maximize2, Minimize2, Printer } from 'lucide-react';
 import { TemplateName } from '@/types/resume';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-// Lazy-load all templates — only fetched when selected
 const lazyTemplate = (loader: () => Promise<{ default: React.ComponentType<any> }>) => lazy(loader);
 
 const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.ComponentType<{ data: any }>>> = {
@@ -38,9 +33,18 @@ const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.Comp
   starter: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.StarterTemplate }))),
   academic: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.AcademicTemplate }))),
   designer: lazyTemplate(() => import('@/components/templates/AllTemplates').then(m => ({ default: m.DesignerTemplate }))),
+  swiss: lazyTemplate(() => import('@/components/templates/SwissTemplate')),
+  metro: lazyTemplate(() => import('@/components/templates/MetroTemplate')),
+  luxe: lazyTemplate(() => import('@/components/templates/LuxeTemplate')),
+  nordic: lazyTemplate(() => import('@/components/templates/NordicTemplate')),
+  architect: lazyTemplate(() => import('@/components/templates/ArchitectTemplate')),
+  editorial: lazyTemplate(() => import('@/components/templates/EditorialTemplate')),
+  brutalist: lazyTemplate(() => import('@/components/templates/BrutalistTemplate')),
+  glass: lazyTemplate(() => import('@/components/templates/GlassTemplate')),
+  neon: lazyTemplate(() => import('@/components/templates/NeonTemplate')),
+  pixel: lazyTemplate(() => import('@/components/templates/PixelTemplate')),
 };
 
-// PDF color configs for generic templates
 const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight: string; text: string; muted: string }> = {
   professional: { headerBg: '#1e40af', accent: '#1e40af', accentLight: '#dbeafe', text: '#1e293b', muted: '#64748b' },
   clean: { headerBg: '#ffffff', accent: '#9ca3af', accentLight: '#f3f4f6', text: '#374151', muted: '#9ca3af' },
@@ -59,9 +63,18 @@ const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight
   starter: { headerBg: '#f0fdf4', accent: '#16a34a', accentLight: '#f0fdf4', text: '#14532d', muted: '#166534' },
   academic: { headerBg: '#166534', accent: '#166534', accentLight: '#f0fdf4', text: '#052e16', muted: '#365314' },
   designer: { headerBg: '#fdf2f8', accent: '#ec4899', accentLight: '#fce7f3', text: '#1e1b4b', muted: '#6b7280' },
+  swiss: { headerBg: '#ffffff', accent: '#e11d48', accentLight: '#fff1f2', text: '#0f172a', muted: '#64748b' },
+  metro: { headerBg: '#0078d4', accent: '#0078d4', accentLight: '#f0f6ff', text: '#1e293b', muted: '#64748b' },
+  luxe: { headerBg: '#0a1628', accent: '#c9a96e', accentLight: '#0f1f3a', text: '#e8e0d0', muted: '#94a3b8' },
+  nordic: { headerBg: '#faf8f5', accent: '#5b8fa8', accentLight: '#f0ece5', text: '#3a4a5a', muted: '#5c6b7a' },
+  architect: { headerBg: '#fdfdfd', accent: '#334155', accentLight: '#f8fafc', text: '#374151', muted: '#6b7280' },
+  editorial: { headerBg: '#fffbf5', accent: '#7c2d12', accentLight: '#fffbf5', text: '#374151', muted: '#78716c' },
+  brutalist: { headerBg: '#fffef5', accent: '#ff6b35', accentLight: '#fff', text: '#1a1a1a', muted: '#666666' },
+  glass: { headerBg: '#0f0a1f', accent: '#a78bfa', accentLight: '#1a1035', text: '#e2e8f0', muted: '#94a3b8' },
+  neon: { headerBg: '#0a0a0f', accent: '#22d3ee', accentLight: '#0a0a0f', text: '#e2e8f0', muted: '#64748b' },
+  pixel: { headerBg: '#f0fdf4', accent: '#10b981', accentLight: '#f0fdf4', text: '#374151', muted: '#6b7280' },
 };
 
-// Memoized template renderer for performance
 const TemplateRenderer = memo(({ selectedTemplate, resume }: { selectedTemplate: TemplateName; resume: any }) => {
   const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
   return (
@@ -85,27 +98,23 @@ export default function ResumePreview() {
   const [viewMode, setViewMode] = useState<'preview' | 'focus'>('preview');
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Optimized scale calculation with debounce
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    
     const updateScale = () => {
       if (timeoutId) clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         if (containerRef.current) {
           const containerWidth = containerRef.current.clientWidth;
           const isMobile = containerWidth < 640;
-          const padding = isMobile ? 32 : 48; // Account for padding
+          const padding = isMobile ? 32 : 48;
           const targetWidth = Math.min(containerWidth - padding, 794);
           setScale(Math.min(targetWidth / 794, 1));
         }
       }, 100);
     };
-    
     updateScale();
     window.addEventListener('resize', updateScale);
     setIsLoaded(true);
-    
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
       window.removeEventListener('resize', updateScale);
@@ -148,57 +157,49 @@ export default function ResumePreview() {
     }
   }, [resume, selectedTemplate]);
 
+  const handlePrint = () => window.print();
+
   return (
-    <div className="space-y-4">
-      {/* Controls - Better spacing on mobile */}
+    <div className="space-y-4 no-print">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap">
           <TemplateSelector />
         </div>
         <div className="flex items-center gap-2">
-          {/* Mobile view toggle */}
           <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'preview' | 'focus')} className="sm:hidden">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="preview" className="text-xs">
-                <Eye className="h-3.5 w-3.5 mr-1" />
-                Preview
+                <Eye className="h-3.5 w-3.5 mr-1" />Preview
               </TabsTrigger>
               <TabsTrigger value="focus" className="text-xs">
-                {viewMode === 'focus' ? (
-                  <><Minimize2 className="h-3.5 w-3.5 mr-1" /> Close</>
-                ) : (
-                  <><Maximize2 className="h-3.5 w-3.5 mr-1" /> Full</>
-                )}
+                {viewMode === 'focus' ? <><Minimize2 className="h-3.5 w-3.5 mr-1" />Close</> : <><Maximize2 className="h-3.5 w-3.5 mr-1" />Full</>}
               </TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button 
-            onClick={handleDownload} 
-            disabled={downloading} 
-            size="sm" 
-            className="shrink-0 bg-primary hover:bg-primary/90"
+          <Button onClick={handlePrint} variant="outline" size="sm" className="shrink-0 rounded-xl hidden sm:flex">
+            <Printer className="h-4 w-4 mr-1" />Print
+          </Button>
+          <Button
+            onClick={handleDownload}
+            disabled={downloading}
+            size="sm"
+            className="shrink-0 bg-primary hover:bg-primary/90 rounded-xl"
           >
-            {downloading ? (
-              <Loader2 className="h-4 w-4 animate-spin mr-1" />
-            ) : (
-              <Download className="h-4 w-4 mr-1" />
-            )}
+            {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
             <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download PDF'}</span>
             <span className="sm:hidden">{downloading ? '...' : 'PDF'}</span>
           </Button>
         </div>
       </div>
 
-      {/* Preview Container - Better mobile padding and spacing */}
-      <div 
-        ref={containerRef} 
-        className={`overflow-hidden rounded-lg border bg-card shadow-sm transition-all duration-300 ${
-          viewMode === 'focus' 
-            ? 'fixed inset-0 z-50 m-0 rounded-none bg-background p-4 sm:p-6' 
+      <div
+        ref={containerRef}
+        className={`overflow-hidden rounded-xl border bg-card shadow-sm transition-all duration-300 ${
+          viewMode === 'focus'
+            ? 'fixed inset-0 z-50 m-0 rounded-none bg-background p-4 sm:p-6'
             : 'p-3 sm:p-4'
         }`}
       >
-        {/* Loading skeleton */}
         {!isLoaded && (
           <div className="animate-pulse">
             <div className="h-4 bg-muted rounded w-3/4 mb-4" />
@@ -206,8 +207,6 @@ export default function ResumePreview() {
             <div className="h-64 bg-muted rounded" />
           </div>
         )}
-        
-        {/* Template Preview */}
         <div className="transition-transform duration-200">
           <div
             className="bg-white origin-top-left mx-auto"
@@ -224,11 +223,7 @@ export default function ResumePreview() {
         </div>
       </div>
 
-      {/* Mobile helper text */}
       <div className="text-center space-y-2 sm:hidden">
-        <p className="text-xs text-muted-foreground">
-          Scroll horizontally to see full width
-        </p>
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           Live updating as you type
