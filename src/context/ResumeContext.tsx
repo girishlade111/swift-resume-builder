@@ -110,6 +110,15 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     setResume(prev => ({ ...prev, experience: prev.experience.filter(e => e.id !== id) }));
   }, []);
 
+  const reorderExperience = useCallback((startIndex: number, endIndex: number) => {
+    setResume(prev => {
+      const items = [...prev.experience];
+      const [removed] = items.splice(startIndex, 1);
+      items.splice(endIndex, 0, removed);
+      return { ...prev, experience: items };
+    });
+  }, []);
+
   const addEducation = useCallback(() => {
     const item: Education = { id: newId(), schoolName: '', degree: '', fieldOfStudy: '', startYear: '', endYear: '', grade: '' };
     setResume(prev => ({ ...prev, education: [...prev.education, item] }));
@@ -126,6 +135,15 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     setResume(prev => ({ ...prev, education: prev.education.filter(e => e.id !== id) }));
   }, []);
 
+  const reorderEducation = useCallback((startIndex: number, endIndex: number) => {
+    setResume(prev => {
+      const items = [...prev.education];
+      const [removed] = items.splice(startIndex, 1);
+      items.splice(endIndex, 0, removed);
+      return { ...prev, education: items };
+    });
+  }, []);
+
   const addProject = useCallback(() => {
     const item: Project = { id: newId(), name: '', link: '', techStack: '', bulletPoints: [''] };
     setResume(prev => ({ ...prev, projects: [...prev.projects, item] }));
@@ -140,6 +158,15 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   const removeProject = useCallback((id: string) => {
     setResume(prev => ({ ...prev, projects: prev.projects.filter(p => p.id !== id) }));
+  }, []);
+
+  const reorderProjects = useCallback((startIndex: number, endIndex: number) => {
+    setResume(prev => {
+      const items = [...prev.projects];
+      const [removed] = items.splice(startIndex, 1);
+      items.splice(endIndex, 0, removed);
+      return { ...prev, projects: items };
+    });
   }, []);
 
   const setSkills = useCallback((skills: string[]) => {
@@ -176,6 +203,15 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         [section]: !prev.visibleSections[section],
       },
     }));
+  }, []);
+
+  const reorderSections = useCallback((startIndex: number, endIndex: number) => {
+    setSettings(prev => {
+      const order = [...prev.sectionOrder];
+      const [removed] = order.splice(startIndex, 1);
+      order.splice(endIndex, 0, removed);
+      return { ...prev, sectionOrder: order };
+    });
   }, []);
 
   const exportToJson = useCallback(() => {
@@ -231,12 +267,13 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
       value={{
         resume, selectedTemplate, persistEnabled, settings, setResume,
         updatePersonal, updateSummary,
-        addExperience, updateExperience, removeExperience,
-        addEducation, updateEducation, removeEducation,
-        addProject, updateProject, removeProject,
+        addExperience, updateExperience, removeExperience, reorderExperience,
+        addEducation, updateEducation, removeEducation, reorderEducation,
+        addProject, updateProject, removeProject, reorderProjects,
         setSkills, updateExtras,
         setSelectedTemplate, resetToExample, resetToEmpty, togglePersist,
-        updateSettings, toggleSectionVisibility, exportToJson, importFromJson, getAtsScore,
+        updateSettings, toggleSectionVisibility, reorderSections,
+        exportToJson, importFromJson, getAtsScore,
       }}
     >
       {children}
