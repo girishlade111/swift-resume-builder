@@ -1,0 +1,164 @@
+ Enterprise-Grade Resume Builder Upgrade Plan                                                                                                                                                                                                                                                                  Context                                                                                                                                                                                                                                                                                                       The Swift Resume Builder app has solid bones (React 18, TypeScript, Vite, Tailwind, shadcn/ui, 22 templates, PDF export) but looks outdated and lacks   enterprise-grade polish and modern features. This plan upgrades the UI/UX, adds powerful new features, and introduces 10 new premium templates to     make it competitive with top resume builders like Reactive Resume and Zety.                                                                                                                                                                                                                                   ---                                                                                                                                                    Phase 1: Foundation Updates (Types, State, CSS)                                                                                                       
+
+ Files to modify:
+ - src/types/resume.ts - Add new template names, add accentColor, fontFamily, sectionOrder, visibleSections fields
+ - src/context/ResumeContext.tsx - Add state for accent color, font family, section ordering, section visibility, JSON import/export actions
+ - src/index.css - Add new utility classes, animations, improved dark mode variables
+
+ Changes:
+ 1. Extend ResumeData with optional settings object: { accentColor?: string, fontFamily?: string, sectionOrder?: string[], visibleSections?:
+ Record<string, boolean> }
+ 2. Add 10 new template names to TemplateName union
+ 3. Add context methods: updateSettings, exportToJson, importFromJson, reorderSections, toggleSectionVisibility
+ 4. Add CSS keyframe animations: fadeIn, slideUp, scaleIn
+ 5. Add glassmorphism utility classes
+
+ ---
+ Phase 2: UI/UX Modernization
+
+ Files to modify:
+ - src/components/Navbar.tsx - Add dark mode toggle, improved branding, glass-effect navbar
+ - src/pages/Index.tsx - Redesign with hero header, progress bar, better layout
+ - src/components/ResumeForm.tsx - Add section visibility toggles, drag-and-drop handles, JSON import/export buttons, font/color pickers, ATS score    
+ display, completion progress
+ - src/components/ResumePreview.tsx - Pass accent color and font family to templates, add print button
+ - src/components/TemplateSelector.tsx - Larger thumbnails, hover effects, template count badges per category, "NEW" badge on new templates
+ - src/components/Footer.tsx - Update template count stat
+ - src/components/InfoSection.tsx - Add ATS score explanation
+
+ Key changes:
+ 1. Navbar: Add sun/moon dark mode toggle using next-themes (already in dependencies), modernize with glass effect
+ 2. Index page: Add a polished header with gradient text, completion progress bar, better section titles
+ 3. ResumeForm:
+   - Add "Customize" section at top with accent color picker (8 preset colors) and font family selector (6 fonts)
+   - Add JSON Export/Import buttons in the controls area
+   - Add eye icons on each accordion section to toggle visibility
+   - Add ATS score badge showing a score 0-100
+   - Add drag handles (grip icon) on experience/education/project cards
+ 4. ResumePreview: Pass settings to templates, add a Print button
+ 5. TemplateSelector: Bigger preview cards, "NEW" badges, better grid
+
+ ---
+ Phase 3: New Features Implementation
+
+ 3a. JSON Import/Export
+
+ - Export: Serialize ResumeData to JSON file, trigger download
+ - Import: File input that reads JSON, validates schema with basic checks, loads into state
+ - Add buttons in ResumeForm controls area
+
+ 3b. Accent Color Customization
+
+ - 8 preset colors: Blue, Teal, Purple, Rose, Amber, Emerald, Slate, Red
+ - Color picker UI in form's "Customize" section
+ - Templates receive accentColor and apply it to their accent elements
+ - Store in settings, persist with localStorage
+
+ 3c. Font Family Picker
+
+ - 6 options: Inter, Georgia, Merriweather, Roboto, Playfair Display, Source Sans Pro
+ - Dropdown in "Customize" section
+ - Templates apply the font to their body text
+
+ 3d. Section Visibility Toggles
+
+ - Eye/eye-off icon button on each accordion section header
+ - Hidden sections don't render in preview
+ - Stored in settings
+
+ 3e. ATS Score Checker
+
+ - Simple rule-based scoring (no AI needed):
+   - Has name (+10), has email (+10), has phone (+5), has summary (+10), summary length 150-300 chars (+5)
+   - Has at least 1 experience (+10), experience has bullet points (+5)
+   - Has education (+5), has skills (+10), 5-15 skills (+5)
+   - Has measurable metrics in bullets (numbers/percentages) (+10)
+   - Total up to 100
+ - Display as a badge/meter in the form header area
+
+ 3f. Print Support
+
+ - Add Print button next to Download PDF
+ - Use window.print() with a print-specific CSS media query
+
+ ---
+ Phase 4: 10 New Premium Templates
+
+ New files to create (each in src/components/templates/):
+
+ 1. SwissTemplate.tsx - Ultra-clean grid, Helvetica/Inter, Swiss design. Red accent line, geometric precision
+ 2. MetroTemplate.tsx - Flat design, bold tile-like sections, strong typography hierarchy
+ 3. LuxeTemplate.tsx - Dark navy/gold, serif fonts, high-end luxury brand feel
+ 4. NordicTemplate.tsx - Soft pastels (light blue/cream), airy spacing, gentle rounded elements
+ 5. ArchitectTemplate.tsx - Blueprint aesthetic, technical grid lines, monospace details
+ 6. EditorialTemplate.tsx - Newspaper column layout, drop caps, elegant serif typography
+ 7. BrutalistTemplate.tsx - Thick black borders, raw typography, asymmetric layout, trendy
+ 8. GlassTemplate.tsx - Soft gradients, frosted glass card sections, modern glassmorphism
+ 9. NeonTemplate.tsx - Dark background, neon cyan/magenta accents, cyberpunk aesthetic
+ 10. PixelTemplate.tsx - Retro pixel-art vibe, monospace font, dot-matrix borders, fun
+
+ For each template:
+ - Create as standalone file (not in AllTemplates.tsx)
+ - Follow existing pattern: export default function XTemplate({ data }: { data: ResumeData })
+ - Support accent color override from settings
+ - Support font family override from settings
+ - Inline styles at 794x1123px canvas
+ - Add lazy loader in ResumePreview.tsx
+ - Add to TemplateSelector.tsx with thumbnail
+ - Add PDF color config in ResumePreview.tsx
+
+ After templates: Update TemplateName type, update all lookup maps
+
+ ---
+ Phase 5: Integration & Polish
+
+ 1. Update src/components/pdf/PdfTemplates.tsx - Add PDF color configs for all 10 new templates
+ 2. Update src/components/Footer.tsx - Change "22+" to "32+" templates
+ 3. Test all templates with example data and empty data
+ 4. Verify PDF export works for all templates
+ 5. Test dark mode across all pages
+ 6. Test mobile responsiveness
+ 7. Verify localStorage persistence includes new settings
+
+ ---
+ Implementation Order
+
+ 1. Phase 1 (types + state + CSS) ~10 min
+ 2. Phase 4 (new templates - most impactful, visible change) ~40 min
+ 3. Phase 2 (UI modernization) ~25 min
+ 4. Phase 3 (new features) ~25 min
+ 5. Phase 5 (integration + polish) ~10 min
+
+ ---
+ Files Created (New)
+
+ - src/components/templates/SwissTemplate.tsx
+ - src/components/templates/MetroTemplate.tsx
+ - src/components/templates/LuxeTemplate.tsx
+ - src/components/templates/NordicTemplate.tsx
+ - src/components/templates/ArchitectTemplate.tsx
+ - src/components/templates/EditorialTemplate.tsx
+ - src/components/templates/BrutalistTemplate.tsx
+ - src/components/templates/GlassTemplate.tsx
+ - src/components/templates/NeonTemplate.tsx
+ - src/components/templates/PixelTemplate.tsx
+
+ Files Modified
+
+ - src/types/resume.ts
+ - src/context/ResumeContext.tsx
+ - src/index.css
+ - src/pages/Index.tsx
+ - src/components/Navbar.tsx
+ - src/components/ResumeForm.tsx
+ - src/components/ResumePreview.tsx
+ - src/components/TemplateSelector.tsx
+ - src/components/Footer.tsx
+
+ Verification
+
+ 1. Run npm run build to verify no TypeScript errors
+ 2. Run dev server and test: all 32 templates render, PDF export works, dark mode toggle works, JSON export/import works, accent color changes apply,  
+ font changes apply, ATS score updates, section visibility toggles work
+ 3. Test mobile layout
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
