@@ -26,7 +26,7 @@ const footerLinks = {
 
 const stats = [
   { icon: Users, value: '50K+', label: 'Resumes Created' },
-  { icon: Sparkles, value: '22+', label: 'Templates' },
+  { icon: Sparkles, value: '32+', label: 'Templates' },
   { icon: Shield, value: '100%', label: 'ATS Compatible' },
   { icon: Zap, value: 'Instant', label: 'PDF Export' },
 ];
