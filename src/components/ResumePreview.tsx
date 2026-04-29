@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const lazyTemplate = (loader: () => Promise<{ default: React.ComponentType<any> }>) => lazy(loader);
 
-const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.ComponentType<{ data: any }>>> = {
+const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.ComponentType<{ data: any; settings: any }>>> = {
   classic: lazyTemplate(() => import('@/components/templates/ClassicTemplate')),
   compact: lazyTemplate(() => import('@/components/templates/CompactTemplate')),
   'left-sidebar': lazyTemplate(() => import('@/components/templates/LeftSidebarTemplate')),
@@ -75,7 +75,7 @@ const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight
   pixel: { headerBg: '#f0fdf4', accent: '#10b981', accentLight: '#f0fdf4', text: '#374151', muted: '#6b7280' },
 };
 
-const TemplateRenderer = memo(({ selectedTemplate, resume }: { selectedTemplate: TemplateName; resume: any }) => {
+const TemplateRenderer = memo(({ selectedTemplate, resume, settings }: { selectedTemplate: TemplateName; resume: any; settings: any }) => {
   const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
   return (
     <Suspense fallback={
@@ -83,7 +83,7 @@ const TemplateRenderer = memo(({ selectedTemplate, resume }: { selectedTemplate:
         <Loader2 className="h-10 w-10 animate-spin text-primary/30" />
       </div>
     }>
-      <Component data={resume} />
+      <Component data={resume} settings={settings} />
     </Suspense>
   );
 });
