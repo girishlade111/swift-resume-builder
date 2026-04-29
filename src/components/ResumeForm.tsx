@@ -96,6 +96,51 @@ function SortableSection({ id, children }: SortableSectionProps) {
   );
 }
 
+interface SortableItemProps {
+  id: string;
+  children: React.ReactNode;
+  onRemove?: () => void;
+}
+
+function SortableItem({ id, children, onRemove }: SortableItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : 0,
+    position: 'relative' as const,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className={`group relative rounded-xl border border-border/50 p-4 bg-muted/10 transition-colors hover:bg-muted/20 ${isDragging ? 'opacity-50 shadow-lg ring-1 ring-primary/20' : ''}`}>
+      <div {...attributes} {...listeners} className="absolute left-2 top-2 p-1 cursor-grab active:cursor-grabbing text-muted-foreground/20 hover:text-muted-foreground transition-colors opacity-0 group-hover:opacity-100">
+        <GripVertical className="h-3.5 w-3.5" />
+      </div>
+      {onRemove && (
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity" 
+          onClick={onRemove}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      )}
+      <div className="pl-4 pr-6">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function ResumeForm() {
   const ctx = useResume();
   const { 
@@ -120,10 +165,44 @@ export default function ResumeForm() {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (over && active.id !== over.id) {
-      const oldIndex = settings.sectionOrder.indexOf(active.id as string);
-      const newIndex = settings.sectionOrder.indexOf(over.id as string);
+    if (!over || active.id === over.id) return;
+
+    const activeId = active.id as string;
+    const overId = over.id as string;
+
+    // Check if it's a section reorder
+    if (settings.sectionOrder.includes(activeId)) {
+      const oldIndex = settings.sectionOrder.indexOf(activeId);
+      const newIndex = settings.sectionOrder.indexOf(overId);
       reorderSections(oldIndex, newIndex);
+      return;
+    }
+
+    // Check if it's an experience reorder
+    const expIds = resume.experience.map(e => e.id);
+    if (expIds.includes(activeId)) {
+      const oldIndex = expIds.indexOf(activeId);
+      const newIndex = expIds.indexOf(overId);
+      ctx.reorderExperience(oldIndex, newIndex);
+      return;
+    }
+
+    // Check if it's an education reorder
+    const eduIds = resume.education.map(e => e.id);
+    if (eduIds.includes(activeId)) {
+      const oldIndex = eduIds.indexOf(activeId);
+      const newIndex = eduIds.indexOf(overId);
+      ctx.reorderEducation(oldIndex, newIndex);
+      return;
+    }
+
+    // Check if it's a project reorder
+    const projIds = resume.projects.map(p => p.id);
+    if (projIds.includes(activeId)) {
+      const oldIndex = projIds.indexOf(activeId);
+      const newIndex = projIds.indexOf(overId);
+      ctx.reorderProjects(oldIndex, newIndex);
+      return;
     }
   };
 
@@ -460,53 +539,48 @@ export default function ResumeForm() {
                           ]} />
                           
                           <div className="space-y-4">
-                            {resume.experience.map((exp) => (
-                              <div key={exp.id} className="group relative space-y-4 rounded-xl border border-border/50 p-4 bg-muted/10 transition-colors hover:bg-muted/20">
-                                <Button 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity" 
-                                  onClick={() => ctx.removeExperience(exp.id)}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                                
-                                <div className="grid gap-4 sm:grid-cols-2 pr-8">
-                                  <Field label="Role / Title">
-                                    <Input value={exp.role} onChange={e => ctx.updateExperience(exp.id, 'role', e.target.value)} placeholder="Full Stack Developer" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Company Name">
-                                    <Input value={exp.company} onChange={e => ctx.updateExperience(exp.id, 'company', e.target.value)} placeholder="Google" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Location">
-                                    <Input value={exp.location} onChange={e => ctx.updateExperience(exp.id, 'location', e.target.value)} placeholder="Remote" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <Field label="Start Date">
-                                      <Input value={exp.startDate} onChange={e => ctx.updateExperience(exp.id, 'startDate', e.target.value)} placeholder="Jan 2022" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                            <SortableContext items={resume.experience.map(e => e.id)} strategy={verticalListSortingStrategy}>
+                              {resume.experience.map((exp) => (
+                                <SortableItem key={exp.id} id={exp.id} onRemove={() => ctx.removeExperience(exp.id)}>
+                                  <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Role / Title">
+                                      <Input value={exp.role} onChange={e => ctx.updateExperience(exp.id, 'role', e.target.value)} placeholder="Full Stack Developer" className="rounded-lg bg-background border-none h-9 shadow-sm" />
                                     </Field>
-                                    <div className="space-y-1.5">
-                                      <Label className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">End Date</Label>
-                                      <Input value={exp.isCurrent ? 'Present' : exp.endDate} disabled={exp.isCurrent} onChange={e => ctx.updateExperience(exp.id, 'endDate', e.target.value)} placeholder="Present" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    <Field label="Company Name">
+                                      <Input value={exp.company} onChange={e => ctx.updateExperience(exp.id, 'company', e.target.value)} placeholder="Google" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <Field label="Location">
+                                      <Input value={exp.location} onChange={e => ctx.updateExperience(exp.id, 'location', e.target.value)} placeholder="Remote" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <div className="grid grid-cols-2 gap-3">
+                                      <Field label="Start Date">
+                                        <Input value={exp.startDate} onChange={e => ctx.updateExperience(exp.id, 'startDate', e.target.value)} placeholder="Jan 2022" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                      </Field>
+                                      <div className="space-y-1.5">
+                                        <Label className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">End Date</Label>
+                                        <Input value={exp.isCurrent ? 'Present' : exp.endDate} disabled={exp.isCurrent} onChange={e => ctx.updateExperience(exp.id, 'endDate', e.target.value)} placeholder="Present" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                      </div>
+                                    </div>
+                                    <div className="sm:col-span-2 flex items-center gap-2">
+                                      <Checkbox checked={exp.isCurrent} onCheckedChange={v => ctx.updateExperience(exp.id, 'isCurrent', !!v)} id={`curr-${exp.id}`} />
+                                      <Label htmlFor={`curr-${exp.id}`} className="text-xs font-medium cursor-pointer">I currently work in this role</Label>
                                     </div>
                                   </div>
-                                  <div className="sm:col-span-2 flex items-center gap-2">
-                                    <Checkbox checked={exp.isCurrent} onCheckedChange={v => ctx.updateExperience(exp.id, 'isCurrent', !!v)} id={`curr-${exp.id}`} />
-                                    <Label htmlFor={`curr-${exp.id}`} className="text-xs font-medium cursor-pointer">I currently work in this role</Label>
+                                  
+                                  <div className="mt-4">
+                                    <Field label="Key Accomplishments (One per line)">
+                                      <Textarea 
+                                        value={exp.bulletPoints.join('\n')} 
+                                        onChange={e => ctx.updateExperience(exp.id, 'bulletPoints', e.target.value.split('\n'))} 
+                                        placeholder={"• Developed and launched 3 new features...\n• Optimized database queries resulting in 20% faster load times..."} 
+                                        rows={4} 
+                                        className="rounded-lg bg-background border-none resize-none shadow-sm p-3" 
+                                      />
+                                    </Field>
                                   </div>
-                                </div>
-                                
-                                <Field label="Key Accomplishments (One per line)">
-                                  <Textarea 
-                                    value={exp.bulletPoints.join('\n')} 
-                                    onChange={e => ctx.updateExperience(exp.id, 'bulletPoints', e.target.value.split('\n'))} 
-                                    placeholder={"• Developed and launched 3 new features...\n• Optimized database queries resulting in 20% faster load times..."} 
-                                    rows={4} 
-                                    className="rounded-lg bg-background border-none resize-none shadow-sm p-3" 
-                                  />
-                                </Field>
-                              </div>
-                            ))}
+                                </SortableItem>
+                              ))}
+                            </SortableContext>
                           </div>
                           
                           <Button variant="outline" size="sm" onClick={ctx.addExperience} className="w-full rounded-xl border-dashed h-10 border-2 hover:border-primary hover:bg-primary/5 transition-all font-bold">
