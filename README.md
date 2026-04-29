@@ -142,6 +142,144 @@
 
 ---
 
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    subgraph Client["Browser Client"]
+        direction TB
+        
+        UI[("UI Layer<br/>React Components")]
+        State[("State Layer<br/>React Context")]
+        Form[("Form Layer<br/>React Hook Form")]
+        Valid[("Validation<br/>Zod Schemas")]
+        
+        UI --> State
+        State --> Form
+        Form --> Valid
+    end
+    
+    subgraph Core["Core Features"]
+        direction TB
+        
+        Builder[("Resume Builder<br/>Form Editor")]
+        Preview[("Live Preview<br/>Real-time Render")]
+        Template[("Template System<br/>22 Templates")]
+        Export[("PDF Export<br/>@react-pdf")]
+        
+        Builder --> Preview
+        Builder --> Template
+        Template --> Export
+    end
+    
+    subgraph Storage["Data Layer"]
+        Local[("LocalStorage<br/>Persistence")]
+        Example[("Example Resume<br/>Sample Data")]
+        
+        Builder --> Local
+        Example --> Local
+    end
+    
+    subgraph Pages["Pages & Routes"]
+        Router[("React Router<br/>SPA Routing")]
+        
+        Router --> Builder
+        Router --> About
+        Router --> Blog
+        Router --> Guide
+        
+        Builder(("Builder Page"))
+        About(("About"))
+        Blog(("Blog"))
+        Guide(("Resume Guide"))
+    end
+    
+    Client --> Core
+    Core --> Storage
+    Core --> Pages
+    
+    style UI fill:#e1f5fe
+    style State fill:#e1f5fe
+    style Builder fill:#fff3e0
+    style Preview fill:#fff3e0
+    style Export fill:#ffebee
+    style Local fill:#e8f5e9
+```
+
+### Architecture Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI as UI Components
+    participant State as Context Provider
+    participant Form as React Hook Form
+    participant Valid as Zod Validator
+    participant Store as LocalStorage
+    participant PDF as @react-pdf/renderer
+    
+    User->>UI: Fill resume form
+    UI->>Form: Register field
+    Form->>Valid: Validate input
+    Valid-->>UI: Return errors/success
+    
+    Form->>State: Update state
+    State->>State: Merge changes
+    State->>Store: Auto-save to localStorage
+    
+    UI->>Preview: Re-render on change
+    Preview->>Template: Apply template styles
+    Template-->>User: Show live preview
+    
+    User->>UI: Click Download PDF
+    UI->>PDF: Generate PDF document
+    PDF->>User: Download .pdf file
+```
+
+### Data Flow
+
+```mermaid
+flowchart LR
+    subgraph Input["User Input"]
+        A[Personal Info]
+        B[Experience]
+        C[Education]
+        D[Skills]
+        E[Projects]
+    end
+    
+    subgraph Process["Processing"]
+        F[Form Handler]
+        G[Validation]
+        H[State Update]
+        I[Template Apply]
+    end
+    
+    subgraph Output["Output"]
+        J[HTML Preview]
+        K[PDF Export]
+        L[LocalStorage]
+    end
+    
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+    
+    F --> G
+    G --> H
+    H --> I
+    
+    I --> J
+    I --> K
+    H --> L
+```
+
+---
+
 ## 🛠️ Tech Stack
 
 ### **Frontend Framework**
