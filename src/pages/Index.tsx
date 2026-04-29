@@ -1,77 +1,74 @@
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import ResumeForm from '@/components/ResumeForm';
 import ResumePreview from '@/components/ResumePreview';
-import InfoSection from '@/components/InfoSection';
 import { ResumeProvider } from '@/context/ResumeContext';
-import { ArrowDown, Sparkles, Shield, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
-  const scrollToPreview = () => {
-    document.getElementById('resume-preview-section')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  };
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <ResumeProvider>
+        <div className="min-h-screen flex flex-col bg-background">
+          <Navbar />
+          <main className="flex-1 flex flex-col p-4 gap-6">
+            <div className="flex flex-col gap-2">
+              <h1 className="text-2xl font-bold tracking-tight">Editor</h1>
+              <p className="text-sm text-muted-foreground">Fill in your details to build your resume</p>
+            </div>
+            <ResumeForm />
+            <div className="mt-8 pt-8 border-t">
+              <div className="flex flex-col gap-2 mb-4">
+                <h2 className="text-2xl font-bold tracking-tight">Preview</h2>
+                <p className="text-sm text-muted-foreground">Real-time view of your document</p>
+              </div>
+              <ResumePreview />
+            </div>
+          </main>
+        </div>
+      </ResumeProvider>
+    );
+  }
 
   return (
     <ResumeProvider>
-      <div className="min-h-screen flex flex-col">
+      <div className="h-screen flex flex-col overflow-hidden bg-background">
         <Navbar />
-        <main className="flex-1">
-          {/* Hero Header */}
-          <div className="no-print border-b bg-gradient-to-br from-background via-background to-primary/5">
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12">
-              <div className="text-center max-w-2xl mx-auto">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight animate-fade-in">
-                  Build Your <span className="gradient-text">Professional Resume</span>
-                </h1>
-                <p className="mt-3 sm:mt-4 text-muted-foreground text-sm sm:text-base leading-relaxed animate-slide-up">
-                  Create stunning, ATS-friendly resumes in minutes. Choose from 32+ enterprise-grade templates, customize colors and fonts, and export to PDF instantly.
-                </p>
-                <div className="mt-5 flex items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                  <span className="flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-primary" />32+ Templates</span>
-                  <span className="flex items-center gap-1.5"><Shield className="h-4 w-4 text-emerald-500" />ATS-Friendly</span>
-                  <span className="flex items-center gap-1.5"><Zap className="h-4 w-4 text-amber-500" />Instant PDF</span>
+        <main className="flex-1 overflow-hidden">
+          <PanelGroup direction="horizontal">
+            <Panel defaultSize={40} minSize={30} maxSize={60} className="h-full">
+              <div className="h-full overflow-y-auto px-6 py-8 custom-scrollbar">
+                <div className="max-w-2xl mx-auto space-y-6">
+                  <header>
+                    <h1 className="text-2xl font-bold tracking-tight">Resume Editor</h1>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Professional details and customization
+                    </p>
+                  </header>
+                  <ResumeForm />
                 </div>
               </div>
-            </div>
-          </div>
+            </Panel>
 
-          {/* Main Builder */}
-          <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:py-8">
-            <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:gap-8">
-              <div className="order-1 w-full min-w-0">
-                <div className="mb-6 lg:mb-0">
-                  <div className="flex items-center justify-between mb-4">
+            <PanelResizeHandle className="w-1 bg-border hover:bg-primary/20 transition-colors cursor-col-resize" />
+
+            <Panel className="h-full bg-muted/30">
+              <div className="h-full overflow-y-auto px-8 py-10 custom-scrollbar flex justify-center">
+                <div className="w-full max-w-4xl">
+                  <header className="mb-6 flex items-center justify-between">
                     <div>
-                      <h2 className="text-xl sm:text-2xl font-bold text-foreground">Editor</h2>
-                      <p className="text-sm text-muted-foreground mt-1">Fill in your details below</p>
+                      <h2 className="text-xl font-bold tracking-tight">Live Preview</h2>
+                      <p className="text-xs text-muted-foreground mt-0.5">Perfect for print & ATS</p>
                     </div>
-                  </div>
-                </div>
-                <ResumeForm />
-                <div className="lg:hidden mt-6">
-                  <Button onClick={scrollToPreview} variant="outline" size="lg" className="w-full gap-2 rounded-xl">
-                    <ArrowDown className="h-4 w-4" />Scroll to Preview
-                  </Button>
-                </div>
-              </div>
-              <div className="order-2 w-full min-w-0" id="resume-preview-section">
-                <div className="lg:sticky lg:top-20 lg:self-start">
-                  <div className="mb-4 lg:mb-6">
-                    <h2 className="text-xl sm:text-2xl font-bold text-foreground">Live Preview</h2>
-                    <p className="text-sm text-muted-foreground mt-1">See your changes in real-time</p>
-                  </div>
+                  </header>
                   <ResumePreview />
                 </div>
               </div>
-            </div>
-          </div>
-          <InfoSection />
+            </Panel>
+          </PanelGroup>
         </main>
-        <Footer />
       </div>
     </ResumeProvider>
   );
