@@ -70,8 +70,8 @@ export default function Footer() {
               <span className="text-lg sm:text-xl font-bold text-foreground">Lade Stack</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-sm">
-              Build professional, ATS-friendly resumes in minutes. Our free resume builder offers 22+
-              templates with live preview and instant PDF export — no signup, no watermarks, no limits.
+              Build professional, ATS-friendly resumes in minutes. Our free resume builder offers 32+
+              enterprise-grade templates with live preview, color customization, ATS scoring, and instant PDF export — no signup, no watermarks, no limits.
             </p>
             {/* Social Links - Scrollable on small screens */}
             <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2">
