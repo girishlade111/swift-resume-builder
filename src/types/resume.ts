@@ -52,6 +52,7 @@ export interface ResumeSettings {
   lineHeight: number;
   sectionSpacing: number;
   visibleSections: Record<string, boolean>;
+  sectionOrder: string[];
 }
 
 export const DEFAULT_SETTINGS: ResumeSettings = {
@@ -68,6 +69,7 @@ export const DEFAULT_SETTINGS: ResumeSettings = {
     skills: true,
     extras: true,
   },
+  sectionOrder: ['personal', 'summary', 'experience', 'education', 'projects', 'skills', 'extras'],
 };
 
 export const ACCENT_COLORS = [
