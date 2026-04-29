@@ -4,7 +4,7 @@ import { PdfClassic, PdfCompact, PdfLeftSidebar, PdfModern, PdfMinimal, PdfGener
 import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState, useCallback, lazy, Suspense, memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Download, Loader2, Eye, Maximize2, Minimize2, Printer } from 'lucide-react';
+import { Download, Loader2, Eye, Maximize2, Minimize2, Printer, ZoomIn, ZoomOut, Monitor } from 'lucide-react';
 import { TemplateName } from '@/types/resume';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -79,8 +79,8 @@ const TemplateRenderer = memo(({ selectedTemplate, resume }: { selectedTemplate:
   const Component = templateLoaders[selectedTemplate] || templateLoaders.classic;
   return (
     <Suspense fallback={
-      <div className="flex items-center justify-center" style={{ width: 794, minHeight: 1123 }}>
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center bg-white shadow-2xl rounded-sm" style={{ width: 794, minHeight: 1123 }}>
+        <Loader2 className="h-10 w-10 animate-spin text-primary/30" />
       </div>
     }>
       <Component data={resume} />
@@ -93,7 +93,7 @@ TemplateRenderer.displayName = 'TemplateRenderer';
 export default function ResumePreview() {
   const { resume, selectedTemplate } = useResume();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.8);
   const [downloading, setDownloading] = useState(false);
   const [viewMode, setViewMode] = useState<'preview' | 'focus'>('preview');
   const [isLoaded, setIsLoaded] = useState(false);
@@ -105,8 +105,8 @@ export default function ResumePreview() {
       timeoutId = setTimeout(() => {
         if (containerRef.current) {
           const containerWidth = containerRef.current.clientWidth;
-          const isMobile = containerWidth < 640;
-          const padding = isMobile ? 32 : 48;
+          const isMobile = window.innerWidth < 1024;
+          const padding = isMobile ? 32 : 64;
           const targetWidth = Math.min(containerWidth - padding, 794);
           setScale(Math.min(targetWidth / 794, 1));
         }
@@ -160,74 +160,94 @@ export default function ResumePreview() {
   const handlePrint = () => window.print();
 
   return (
-    <div className="space-y-4 no-print">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex flex-col h-full space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-background/50 p-4 rounded-2xl border backdrop-blur-sm">
+        <div className="flex items-center gap-3">
           <TemplateSelector />
         </div>
+        
         <div className="flex items-center gap-2">
-          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'preview' | 'focus')} className="sm:hidden">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="preview" className="text-xs">
-                <Eye className="h-3.5 w-3.5 mr-1" />Preview
+          <div className="hidden sm:flex items-center bg-muted/50 rounded-lg p-1 mr-2 border">
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-md" onClick={() => setScale(s => Math.max(s - 0.1, 0.4))}>
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <div className="px-2 text-[10px] font-bold text-muted-foreground w-12 text-center">
+              {Math.round(scale * 100)}%
+            </div>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-md" onClick={() => setScale(s => Math.min(s + 0.1, 1.5))}>
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'preview' | 'focus')} className="lg:hidden">
+            <TabsList className="grid w-full grid-cols-2 h-9 rounded-lg">
+              <TabsTrigger value="preview" className="text-xs rounded-md">
+                <Eye className="h-3.5 w-3.5 mr-1" />View
               </TabsTrigger>
-              <TabsTrigger value="focus" className="text-xs">
-                {viewMode === 'focus' ? <><Minimize2 className="h-3.5 w-3.5 mr-1" />Close</> : <><Maximize2 className="h-3.5 w-3.5 mr-1" />Full</>}
+              <TabsTrigger value="focus" className="text-xs rounded-md">
+                <Maximize2 className="h-3.5 w-3.5 mr-1" />Focus
               </TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button onClick={handlePrint} variant="outline" size="sm" className="shrink-0 rounded-xl hidden sm:flex">
-            <Printer className="h-4 w-4 mr-1" />Print
+
+          <Button onClick={handlePrint} variant="outline" size="sm" className="h-9 rounded-lg hidden sm:flex border-2 font-bold">
+            <Printer className="h-4 w-4 mr-2" /> Print
           </Button>
+
           <Button
             onClick={handleDownload}
             disabled={downloading}
             size="sm"
-            className="shrink-0 bg-primary hover:bg-primary/90 rounded-xl"
+            className="h-9 rounded-lg shadow-lg shadow-primary/20 font-bold px-4"
           >
-            {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Download className="h-4 w-4 mr-1" />}
-            <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download PDF'}</span>
-            <span className="sm:hidden">{downloading ? '...' : 'PDF'}</span>
+            {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
+            <span>{downloading ? 'Processing...' : 'Download PDF'}</span>
           </Button>
         </div>
       </div>
 
       <div
         ref={containerRef}
-        className={`overflow-hidden rounded-xl border bg-card shadow-sm transition-all duration-300 ${
-          viewMode === 'focus'
-            ? 'fixed inset-0 z-50 m-0 rounded-none bg-background p-4 sm:p-6'
-            : 'p-3 sm:p-4'
+        className={`flex-1 overflow-auto rounded-3xl border-4 border-dashed border-muted/50 bg-muted/20 p-8 sm:p-12 transition-all relative ${
+          viewMode === 'focus' ? 'fixed inset-0 z-50 m-0 rounded-none bg-background' : ''
         }`}
       >
-        {!isLoaded && (
-          <div className="animate-pulse">
-            <div className="h-4 bg-muted rounded w-3/4 mb-4" />
-            <div className="h-4 bg-muted rounded w-1/2 mb-4" />
-            <div className="h-64 bg-muted rounded" />
-          </div>
-        )}
-        <div className="transition-transform duration-200">
-          <div
-            className="bg-white origin-top-left mx-auto"
-            style={{
-              width: 794,
-              minHeight: 1123,
-              transform: `scale(${scale})`,
-              transformOrigin: 'top left',
-              marginBottom: `${1123 * (scale - 1)}px`,
-            }}
+        {viewMode === 'focus' && (
+          <Button 
+            variant="secondary" 
+            size="icon" 
+            className="absolute top-6 right-6 z-[60] h-10 w-10 rounded-full shadow-xl" 
+            onClick={() => setViewMode('preview')}
           >
-            <TemplateRenderer selectedTemplate={selectedTemplate} resume={resume} />
-          </div>
+            <Minimize2 className="h-5 w-5" />
+          </Button>
+        )}
+
+        <div className="flex justify-center items-start min-h-full">
+          {!isLoaded ? (
+            <div className="bg-white shadow-2xl rounded-sm w-[794px] h-[1123px] flex items-center justify-center">
+               <Loader2 className="h-10 w-10 animate-spin text-primary/20" />
+            </div>
+          ) : (
+            <div 
+              className="bg-white shadow-2xl origin-top transition-transform duration-200 ease-out rounded-sm overflow-hidden"
+              style={{
+                width: 794,
+                minHeight: 1123,
+                transform: `scale(${scale})`,
+                marginBottom: `${1123 * (scale - 1)}px`,
+              }}
+            >
+              <TemplateRenderer selectedTemplate={selectedTemplate} resume={resume} />
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="text-center space-y-2 sm:hidden">
-        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          Live updating as you type
-        </div>
+      <div className="flex items-center justify-center gap-4 py-2 border-t bg-background/50 rounded-2xl">
+         <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+           <Monitor className="h-3 w-3" /> Real-time Studio Engine Active
+         </div>
       </div>
     </div>
   );
