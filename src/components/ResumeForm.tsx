@@ -592,41 +592,34 @@ export default function ResumeForm() {
                       {sectionId === 'education' && (
                         <div className="space-y-5">
                           <div className="space-y-4">
-                            {resume.education.map((edu) => (
-                              <div key={edu.id} className="group relative space-y-4 rounded-xl border border-border/50 p-4 bg-muted/10 transition-colors hover:bg-muted/20">
-                                <Button 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity" 
-                                  onClick={() => ctx.removeEducation(edu.id)}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                                
-                                <div className="grid gap-4 sm:grid-cols-2 pr-8">
-                                  <Field label="Institution">
-                                    <Input value={edu.schoolName} onChange={e => ctx.updateEducation(edu.id, 'schoolName', e.target.value)} placeholder="Stanford University" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Degree / Qualification">
-                                    <Input value={edu.degree} onChange={e => ctx.updateEducation(edu.id, 'degree', e.target.value)} placeholder="Bachelor of Science" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Field of Study">
-                                    <Input value={edu.fieldOfStudy} onChange={e => ctx.updateEducation(edu.id, 'fieldOfStudy', e.target.value)} placeholder="Computer Science" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Grade / GPA">
-                                    <Input value={edu.grade} onChange={e => ctx.updateEducation(edu.id, 'grade', e.target.value)} placeholder="3.8 / 4.0" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <Field label="Start Year">
-                                      <Input value={edu.startYear} onChange={e => ctx.updateEducation(edu.id, 'startYear', e.target.value)} placeholder="2018" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                            <SortableContext items={resume.education.map(e => e.id)} strategy={verticalListSortingStrategy}>
+                              {resume.education.map((edu) => (
+                                <SortableItem key={edu.id} id={edu.id} onRemove={() => ctx.removeEducation(edu.id)}>
+                                  <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Institution">
+                                      <Input value={edu.schoolName} onChange={e => ctx.updateEducation(edu.id, 'schoolName', e.target.value)} placeholder="Stanford University" className="rounded-lg bg-background border-none h-9 shadow-sm" />
                                     </Field>
-                                    <Field label="End Year">
-                                      <Input value={edu.endYear} onChange={e => ctx.updateEducation(edu.id, 'endYear', e.target.value)} placeholder="2022" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    <Field label="Degree / Qualification">
+                                      <Input value={edu.degree} onChange={e => ctx.updateEducation(edu.id, 'degree', e.target.value)} placeholder="Bachelor of Science" className="rounded-lg bg-background border-none h-9 shadow-sm" />
                                     </Field>
+                                    <Field label="Field of Study">
+                                      <Input value={edu.fieldOfStudy} onChange={e => ctx.updateEducation(edu.id, 'fieldOfStudy', e.target.value)} placeholder="Computer Science" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <Field label="Grade / GPA">
+                                      <Input value={edu.grade} onChange={e => ctx.updateEducation(edu.id, 'grade', e.target.value)} placeholder="3.8 / 4.0" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <div className="grid grid-cols-2 gap-3">
+                                      <Field label="Start Year">
+                                        <Input value={edu.startYear} onChange={e => ctx.updateEducation(edu.id, 'startYear', e.target.value)} placeholder="2018" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                      </Field>
+                                      <Field label="End Year">
+                                        <Input value={edu.endYear} onChange={e => ctx.updateEducation(edu.id, 'endYear', e.target.value)} placeholder="2022" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                      </Field>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            ))}
+                                </SortableItem>
+                              ))}
+                            </SortableContext>
                           </div>
                           
                           <Button variant="outline" size="sm" onClick={ctx.addEducation} className="w-full rounded-xl border-dashed h-10 border-2 hover:border-primary hover:bg-primary/5 transition-all font-bold">
@@ -638,41 +631,36 @@ export default function ResumeForm() {
                       {sectionId === 'projects' && (
                         <div className="space-y-5">
                           <div className="space-y-4">
-                            {resume.projects.map((proj) => (
-                              <div key={proj.id} className="group relative space-y-4 rounded-xl border border-border/50 p-4 bg-muted/10 transition-colors hover:bg-muted/20">
-                                <Button 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity" 
-                                  onClick={() => ctx.removeProject(proj.id)}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                                
-                                <div className="grid gap-4 sm:grid-cols-2 pr-8">
-                                  <Field label="Project Name">
-                                    <Input value={proj.name} onChange={e => ctx.updateProject(proj.id, 'name', e.target.value)} placeholder="E-commerce Platform" className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <Field label="Project Link">
-                                    <Input value={proj.link} onChange={e => ctx.updateProject(proj.id, 'link', e.target.value)} placeholder="https://github.com/..." className="rounded-lg bg-background border-none h-9 shadow-sm" />
-                                  </Field>
-                                  <div className="sm:col-span-2">
-                                    <Field label="Tech Stack used">
-                                      <Input value={proj.techStack} onChange={e => ctx.updateProject(proj.id, 'techStack', e.target.value)} placeholder="Next.js, Tailwind CSS, PostgreSQL" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                            <SortableContext items={resume.projects.map(p => p.id)} strategy={verticalListSortingStrategy}>
+                              {resume.projects.map((proj) => (
+                                <SortableItem key={proj.id} id={proj.id} onRemove={() => ctx.removeProject(proj.id)}>
+                                  <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Project Name">
+                                      <Input value={proj.name} onChange={e => ctx.updateProject(proj.id, 'name', e.target.value)} placeholder="E-commerce Platform" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <Field label="Project Link">
+                                      <Input value={proj.link} onChange={e => ctx.updateProject(proj.id, 'link', e.target.value)} placeholder="https://github.com/..." className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                    </Field>
+                                    <div className="sm:col-span-2">
+                                      <Field label="Tech Stack used">
+                                        <Input value={proj.techStack} onChange={e => ctx.updateProject(proj.id, 'techStack', e.target.value)} placeholder="Next.js, Tailwind CSS, PostgreSQL" className="rounded-lg bg-background border-none h-9 shadow-sm" />
+                                      </Field>
+                                    </div>
+                                  </div>
+                                  <div className="mt-4">
+                                    <Field label="Project Description">
+                                      <Textarea 
+                                        value={proj.bulletPoints.join('\n')} 
+                                        onChange={e => ctx.updateProject(proj.id, 'bulletPoints', e.target.value.split('\n'))} 
+                                        placeholder={"• Built a secure payment gateway integration...\n• Implemented real-time inventory management..."} 
+                                        rows={3} 
+                                        className="rounded-lg bg-background border-none resize-none shadow-sm p-3" 
+                                      />
                                     </Field>
                                   </div>
-                                </div>
-                                <Field label="Project Description">
-                                  <Textarea 
-                                    value={proj.bulletPoints.join('\n')} 
-                                    onChange={e => ctx.updateProject(proj.id, 'bulletPoints', e.target.value.split('\n'))} 
-                                    placeholder={"• Built a secure payment gateway integration...\n• Implemented real-time inventory management..."} 
-                                    rows={3} 
-                                    className="rounded-lg bg-background border-none resize-none shadow-sm p-3" 
-                                  />
-                                </Field>
-                              </div>
-                            ))}
+                                </SortableItem>
+                              ))}
+                            </SortableContext>
                           </div>
                           <Button variant="outline" size="sm" onClick={ctx.addProject} className="w-full rounded-xl border-dashed h-10 border-2 hover:border-primary hover:bg-primary/5 transition-all font-bold">
                             <Plus className="h-4 w-4 mr-2" /> Add Project
