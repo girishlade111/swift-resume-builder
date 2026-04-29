@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { 
   Plus, Trash2, RotateCcw, FileText, Upload, X, Download, UploadCloud, 
-  Eye, EyeOff, Palette, Shield, Settings2, MoreHorizontal, Gp as GripVertical,
+  Eye, EyeOff, Palette, Shield, Settings2, MoreHorizontal, GripVertical,
   Briefcase, GraduationCap, Laptop, Lightbulb, Trophy, User
 } from 'lucide-react';
 import AtsTips from '@/components/AtsTips';
