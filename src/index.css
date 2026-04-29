@@ -1,14 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@300;400;700&family=Roboto:wght@300;400;500;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global smooth scrolling */
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Prevent horizontal scroll */
 body {
   overflow-x: hidden;
 }
@@ -17,34 +17,24 @@ body {
   :root {
     --background: 210 20% 98%;
     --foreground: 222 47% 11%;
-
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
-
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-
     --accent: 210 40% 96%;
     --accent-foreground: 222 47% 11%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 217 91% 60%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 217 91% 60%;
@@ -56,41 +46,32 @@ body {
   }
 
   .dark {
-    --background: 222 47% 5%;
-    --foreground: 210 40% 98%;
-
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
-
+    --background: 224 32% 6%;
+    --foreground: 210 40% 96%;
+    --card: 224 32% 9%;
+    --card-foreground: 210 40% 96%;
+    --popover: 224 32% 9%;
+    --popover-foreground: 210 40% 96%;
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 217 33% 18%;
+    --secondary: 217 33% 15%;
     --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 217 33% 18%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 60%;
+    --accent: 217 33% 15%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
+    --border: 217 28% 16%;
+    --input: 217 28% 16%;
     --ring: 217 91% 60%;
-
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 240 5.9% 8%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 240 3.7% 13%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-border: 240 3.7% 13%;
     --sidebar-ring: 217 91% 60%;
   }
 }
@@ -105,24 +86,64 @@ body {
   }
 }
 
-/* Mobile optimizations */
 @layer utilities {
-  /* Smooth animations */
   .transition-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
-  /* Hardware acceleration for transforms */
   .hardware-accel {
     transform: translateZ(0);
     will-change: transform;
   }
-  
-  /* Prevent text selection on buttons */
   .no-select {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.animate-fade-in { animation: fadeIn 0.4s ease-out both; }
+.animate-slide-up { animation: slideUp 0.5s ease-out both; }
+.animate-scale-in { animation: scaleIn 0.3s ease-out both; }
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.dark .glass-effect {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--primary)), #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
 }
