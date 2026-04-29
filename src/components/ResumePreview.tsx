@@ -91,7 +91,7 @@ const TemplateRenderer = memo(({ selectedTemplate, resume, settings }: { selecte
 TemplateRenderer.displayName = 'TemplateRenderer';
 
 export default function ResumePreview() {
-  const { resume, selectedTemplate } = useResume();
+  const { resume, selectedTemplate, settings } = useResume();
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.8);
   const [downloading, setDownloading] = useState(false);
@@ -238,7 +238,7 @@ export default function ResumePreview() {
                 marginBottom: `${1123 * (scale - 1)}px`,
               }}
             >
-              <TemplateRenderer selectedTemplate={selectedTemplate} resume={resume} />
+              <TemplateRenderer selectedTemplate={selectedTemplate} resume={resume} settings={settings} />
             </div>
           )}
         </div>
