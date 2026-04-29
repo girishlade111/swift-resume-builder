@@ -13,12 +13,15 @@ interface ResumeContextType {
   addExperience: () => void;
   updateExperience: (id: string, field: string, value: any) => void;
   removeExperience: (id: string) => void;
+  reorderExperience: (startIndex: number, endIndex: number) => void;
   addEducation: () => void;
   updateEducation: (id: string, field: string, value: string) => void;
   removeEducation: (id: string) => void;
+  reorderEducation: (startIndex: number, endIndex: number) => void;
   addProject: () => void;
   updateProject: (id: string, field: string, value: any) => void;
   removeProject: (id: string) => void;
+  reorderProjects: (startIndex: number, endIndex: number) => void;
   setSkills: (skills: string[]) => void;
   updateExtras: (field: string, value: string) => void;
   setSelectedTemplate: (t: TemplateName) => void;
@@ -27,6 +30,7 @@ interface ResumeContextType {
   togglePersist: () => void;
   updateSettings: (patch: Partial<ResumeSettings>) => void;
   toggleSectionVisibility: (section: string) => void;
+  reorderSections: (startIndex: number, endIndex: number) => void;
   exportToJson: () => void;
   importFromJson: (file: File) => Promise<void>;
   getAtsScore: () => number;
