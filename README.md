@@ -355,53 +355,184 @@ sequenceDiagram
 
 ## 📸 Screenshots
 
-### Desktop View
+### 🖥️ Desktop View — Resume Builder
+
+> **Main application view with split-panel layout**
+
+| Component | Description |
+|-----------|-------------|
+| **Header** | Logo, Navigation links, ATS Tips, Feedback |
+| **Left Panel** | Resume form with collapsible sections |
+| **Right Panel** | Live A4 preview with template selector |
+| **Action Bar** | Download PDF, Template dropdown |
+
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  [Logo] Lade Stack    [Nav Links]    [Why ATS?] [Feedback] │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐  ┌─────────────────────────────────┐  │
-│  │                 │  │                                 │  │
-│  │   Resume Form   │  │      Live Preview (A4)          │  │
-│  │   - Personal    │  │                                 │  │
-│  │   - Experience  │  │   [Template: Classic ▼]         │  │
-│  │   - Education   │  │   [Download PDF]                │  │
-│  │   - Skills      │  │                                 │  │
-│  │                 │  │   ┌─────────────────────┐       │  │
-│  │                 │  │   │  JOHN DOE           │       │  │
-│  │                 │  │   │  Software Engineer  │       │  │
-│  │                 │  │   │                     │       │  │
-│  │                 │  │   │  EXPERIENCE         │       │  │
-│  │                 │  │   │  • Built React app  │       │  │
-│  │                 │  │   └─────────────────────┘       │  │
-│  └─────────────────┘  └─────────────────────────────────┘  │
-├─────────────────────────────────────────────────────────────┤
-│  Why ATS-friendly resumes matter...                         │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🚀 LadeStack          Home  About  Guide  Blog      [Why ATS?] [Feedback]│
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  Resume Builder                              Live Preview (A4)             │
+│  ┌─────────────────────────────┐        ┌─────────────────────────┐   │
+│  │ ▼ Personal Information     │        │                       │   │
+│  │   Full Name: [John Doe    ] │        │   JOHN DOE            │   │
+│  │   Job Title: [Engineer    ] │        │   Software Engineer   │   │
+│  │   Email:   [email@...]     │        │                       │   │
+│  │                             │        │   EXPERIENCE         │   │
+│  │ ▼ Work Experience          │        │   Tech Corp.2022-Now  │   │
+│  │   [+ Add Experience]      │        │   • Built scalable..  │   │
+│  │                             │        │                       │   │
+│  │ ▼ Education               │        │   EDUCATION           │   │
+│  │   [+ Add Education]       │        │   BS Computer Science │   │
+│  │                             │        │   University 2018-22 │   │
+│  │ ▼ Skills                 │        │                       │   │
+│  │   [React] [Node] [Type..]│        │   SKILLS              │   │
+│  │                             │        │   React, Node, SQL   │   │
+│  └─────────────────────────────┘        │                       │   │
+│                                          │  [Classic ▼] [PDF]    │   │
+│  Template: [Classic ▼]   [Download PDF]  └─────────────────────────┘   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-### Mobile View
+---
+
+### 📱 Mobile View — Responsive Design
+
+> **Optimized for mobile devices with collapsible sections**
+
 ```
-┌──────────────────────┐
-│ [☰] Lade Stack       │
-├──────────────────────┤
-│ Build Your Resume    │
-│ ┌──────────────────┐ │
-│ │ Personal Info ▼  │ │
-│ │ [Form Fields]    │ │
-│ └──────────────────┘ │
-│ ┌──────────────────┐ │
-│ │ Experience ▼     │ │
-│ │ [Form Fields]    │ │
-│ └──────────────────┘ │
-│ [Scroll to Preview▼] │
-├──────────────────────┤
-│ Live Preview         │
-│ ┌──────────────────┐ │
-│ │ [Resume Preview] │ │
-│ └──────────────────┘ │
-│ [Templates] [PDF ▼]  │
-└──────────────────────┘
+┌─────────────────────────────┐
+│ ☰  LadeStack    [PDF]   │
+├─────────────────────────────┤
+│ Build Your Resume         │
+│                         │
+│ ▼ Personal Info         │
+│ ┌─────────────────────┐ │
+│ │ Name: [........]   │ │
+│ │ Title: [........]  │ │
+│ │ Email:[........]   │ │
+│ └─────────────────────┘ │
+│                         │
+│ ▼ Experience           │
+│ ┌─────────────────────┐ │
+│ │ Company: [......]   │ │
+│ │ Role: [........]   │ │
+│ └─────────────────────┘ │
+│                         │
+│ [Preview] [Templates]   │
+├─────────────────────────��───┤
+│ Live Preview           │
+│ ┌─────────────────────┐ │
+│ │                    │ │
+│ │   JOHN DOE         │ │
+│ │   Software Eng.    │ │
+│ │                    │ │
+│ │   EXPERIENCE       │ │
+│ │   • Built app     │ │
+│ │                    │ │
+│ └─────────────────────┘ │
+│ [Download PDF]         │
+└─────────────────────────────┘
+```
+
+---
+
+### 🎨 Template Gallery
+
+> **Browse 22 professional templates across 4 categories**
+
+| Category | Templates |
+|----------|-----------|
+| **Professional** | Classic, Executive, Corporate, Elegant |
+| **Modern** | Modern, Bold, Tech, Gradient, Infographic, Timeline |
+| **Minimal** | Minimal, Clean, Monochrome, Starter |
+| **Creative** | Creative, Artistic, Magazine, Designer, Academic, Left-Sidebar, Compact |
+
+```
+┌──────────────────────────────────────────────────────┐
+│ Select Template                                       │
+├──────────────────────────────────────────────────────┤
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
+│ │ Classic │ │ Modern  │ │ Minimal  │ │Creative │   │
+│ │  [IMG]  │ │  [IMG]  │ │  [IMG]   │ │  [IMG]  │   │
+│ └──────────┘ └──────────┘ └──────────┘ └──────────┘   │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
+│ │Executive │ │  Bold   │ │  Clean   │ │  Tech   │   │
+│ │  [IMG]  │ │  [IMG]  │ │  [IMG]   │ │  [IMG]  │   │
+│ └──────────┘ └──────────┘ └──────────┘ └──────────┘   │
+│                                                      │
+│ [Category: All ▼]                         [Apply]      │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
+### 📄 PDF Export
+
+> **One-click PDF download with smart filename**
+
+- **Filename format**: `YourName-JobTitle-Resume.pdf`
+- **Quality**: 300 DPI print-ready
+- **Templates**: 6 PDF styles available
+
+```
+┌──────────────────────────────────────────────────────┐
+│ Download Resume                                      │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│   ┌─────────────────────────────────────────────┐   │
+│   │                                             │   │
+│   │           Resume Preview (PDF)             │   │
+│   │                                             │   │
+│   │   Name: John Doe                            │   │
+│   │   Title: Software Engineer                │   │
+│   │                                             │   │
+│   │   ─────────────────────────────────────    │   │
+│   │                                             │   │
+│   │   EXPERIENCE                               │   │
+│   │   • Led development of...                    │   │
+│   │   • Increased performance by 40%          │   │
+│   │                                             │   │
+│   └─────────────────────────────────────────────┘   │
+│                                                      │
+│   Template: [Classic ▼]                              │
+│                                                      │
+│         ⬇️  Download PDF                            │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
+### 💾 Data Persistence
+
+> **Auto-save to browser LocalStorage**
+
+| Feature | Description |
+|---------|-------------|
+| **Auto-Save** | Automatically saves as you type |
+| **Toggle** | Enable/disable persistence |
+| **Example** | Load sample resume for quick start |
+| **Clear** | Reset with confirmation |
+
+```
+┌──────────────────────────────────────────────────────┐
+│ 💾 Resume Data                                       │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│   [✅] Auto-save enabled                             │
+│                                                      │
+│   ┌──────────────────────────────────────────┐      │
+│   │ Last saved: Today at 2:30 PM              │      │
+│   └──────────────────────────────────────────┘      │
+│                                                      │
+│   [Load Example Resume]                             │
+│   [Clear All Data]                                  │
+│                                                      │
+│   ⚠️ This will delete all your resume data.         │
+│   Are you sure?  [Cancel] [Yes, Delete]            │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 ```
 
 ---
