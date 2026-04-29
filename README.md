@@ -147,73 +147,104 @@
 
 ---
 
----
-
 ## 🏗️ System Architecture
+
+> **High-level architecture showing how the application components interact**
 
 ```mermaid
 flowchart TB
-    subgraph Client["Browser Client"]
-        direction TB
-        
-        UI[("UI Layer<br/>React Components")]
-        State[("State Layer<br/>React Context")]
-        Form[("Form Layer<br/>React Hook Form")]
-        Valid[("Validation<br/>Zod Schemas")]
+    subgraph Client["🔤 Browser Client Layer"]
+        UI["UI Components<br/>React"]
+        State["State Management<br/>React Context"]
+        Form["Form Handling<br/>React Hook Form"]
+        Valid["Validation<br/>Zod Schemas"]
         
         UI --> State
         State --> Form
         Form --> Valid
     end
     
-    subgraph Core["Core Features"]
-        direction TB
-        
-        Builder[("Resume Builder<br/>Form Editor")]
-        Preview[("Live Preview<br/>Real-time Render")]
-        Template[("Template System<br/>22 Templates")]
-        Export[("PDF Export<br/>@react-pdf")]
+    subgraph Core["⚙️ Core Features Layer"]
+        Builder["Resume Builder<br/>Form Editor"]
+        Preview["Live Preview<br/>Real-time Render"]
+        Template["Template System<br/>22 Templates"]
+        Export["PDF Export<br/>@react-pdf"]
         
         Builder --> Preview
         Builder --> Template
         Template --> Export
     end
     
-    subgraph Storage["Data Layer"]
-        Local[("LocalStorage<br/>Persistence")]
-        Example[("Example Resume<br/>Sample Data")]
+    subgraph Storage["💾 Data Layer"]
+        Local["LocalStorage<br/>Persistence"]
+        Example["Example Resume<br/>Sample Data"]
         
         Builder --> Local
         Example --> Local
     end
     
-    subgraph Pages["Pages & Routes"]
-        Router[("React Router<br/>SPA Routing")]
+    subgraph Routes["🌐 Pages & Routes"]
+        Router["React Router<br/>SPA Routing"]
         
-        Router --> Builder
-        Router --> About
-        Router --> Blog
-        Router --> Guide
-        
-        Builder(("Builder Page"))
-        About(("About"))
-        Blog(("Blog"))
-        Guide(("Resume Guide"))
+        Router --> BuilderPage["Builder Page"]
+        Router --> AboutPage["About"]
+        Router --> BlogPage["Blog"]
+        Router --> GuidePage["Resume Guide"]
     end
     
     Client --> Core
     Core --> Storage
-    Core --> Pages
+    Core --> Routes
     
-    style UI fill:#e1f5fe
-    style State fill:#e1f5fe
-    style Builder fill:#fff3e0
-    style Preview fill:#fff3e0
-    style Export fill:#ffebee
-    style Local fill:#e8f5e9
+    style UI fill:#e1f5fe,stroke:#0277bd
+    style State fill:#e1f5fe,stroke:#0277bd
+    style Builder fill:#fff3e0,stroke:#f57c00
+    style Preview fill:#fff3e0,stroke:#f57c00
+    style Export fill:#ffebee,stroke:#c62828
+    style Local fill:#e8f5e9,stroke:#2e7d32
 ```
 
-### Architecture Flow
+### 🔄 Data Flow Diagram
+
+```mermaid
+flowchart LR
+    subgraph Input["📥 User Input"]
+        A[Personal Info]
+        B[Experience]
+        C[Education]
+        D[Skills]
+        E[Projects]
+    end
+    
+    subgraph Process["⚙️ Processing"]
+        F[Form Handler]
+        G[Validation]
+        H[State Update]
+        I[Template Apply]
+    end
+    
+    subgraph Output["📤 Output"]
+        J[HTML Preview]
+        K[PDF Export]
+        L[LocalStorage]
+    end
+    
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+    
+    F --> G
+    G --> H
+    H --> I
+    
+    I --> J
+    I --> K
+    H --> L
+```
+
+### 🔄 Sequence Flow
 
 ```mermaid
 sequenceDiagram
@@ -241,46 +272,6 @@ sequenceDiagram
     User->>UI: Click Download PDF
     UI->>PDF: Generate PDF document
     PDF->>User: Download .pdf file
-```
-
-### Data Flow
-
-```mermaid
-flowchart LR
-    subgraph Input["User Input"]
-        A[Personal Info]
-        B[Experience]
-        C[Education]
-        D[Skills]
-        E[Projects]
-    end
-    
-    subgraph Process["Processing"]
-        F[Form Handler]
-        G[Validation]
-        H[State Update]
-        I[Template Apply]
-    end
-    
-    subgraph Output["Output"]
-        J[HTML Preview]
-        K[PDF Export]
-        L[LocalStorage]
-    end
-    
-    A --> F
-    B --> F
-    C --> F
-    D --> F
-    E --> F
-    
-    F --> G
-    G --> H
-    H --> I
-    
-    I --> J
-    I --> K
-    H --> L
 ```
 
 ---
