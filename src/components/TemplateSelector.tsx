@@ -27,12 +27,15 @@ interface TemplateInfo {
 }
 
 const templates: TemplateInfo[] = [
-  // Professional / Corporate
+  // Corporate / Professional
   { name: 'classic', label: 'Classic', category: 'Corporate', subcategory: 'Traditional', colors: ['#1b2a4a', '#f8f6f0'], layout: 'full', isPopular: true, atsFriendly: true, description: 'Time-honored format that emphasizes experience and credentials', bestFor: ['Finance', 'Legal', 'Management'] },
   { name: 'executive', label: 'Executive', category: 'Corporate', subcategory: 'Premium', colors: ['#1a1a1a', '#f9fafb'], layout: 'full', isNew: true, atsFriendly: true, description: 'Sophisticated layout with refined typography for senior roles', bestFor: ['C-Suite', 'Directors', 'Executives'] },
+  { name: 'executive-prime', label: 'Executive Prime', category: 'Corporate', subcategory: 'Premium', colors: ['#1a1a1a', '#fafaf9'], layout: 'full', isNew: true, atsFriendly: true, description: 'Ultra-premium gold accents for C-suite executives', bestFor: ['CEO', 'Board', 'Leadership'] },
   { name: 'professional', label: 'Professional', category: 'Corporate', subcategory: 'Business', colors: ['#1e40af', '#f8fafc'], layout: 'full', isPopular: true, atsFriendly: true, description: 'Clean business aesthetic with strong visual hierarchy', bestFor: ['Consulting', 'Finance', 'Marketing'] },
+  { name: 'capital', label: 'Capital', category: 'Corporate', subcategory: 'Finance', colors: ['#0f172a', '#ffffff'], layout: 'full', isNew: true, atsFriendly: true, description: 'Investment banking and finance template', bestFor: ['Finance', 'Banking', 'Consulting'] },
   { name: 'corporate', label: 'Corporate', category: 'Corporate', subcategory: 'Traditional', colors: ['#1e3a5f', '#ffffff'], layout: 'sidebar', atsFriendly: true, description: 'Structured two-column with proven effectiveness', bestFor: ['Banking', 'Legal', 'HR'] },
   { name: 'elegant', label: 'Elegant', category: 'Corporate', subcategory: 'Premium', colors: ['#6b1d3a', '#fdf6ee'], layout: 'full', atsFriendly: true, description: 'Refined serif typography with classic appeal', bestFor: ['Law', 'Academia', 'Creative'] },
+  { name: 'ivy-league', label: 'Ivy League', category: 'Corporate', subcategory: 'Academic', colors: ['#1e3a5f', '#fdfbf7'], layout: 'full', isNew: true, atsFriendly: true, description: 'Traditional academic styling for professionals', bestFor: ['Academia', 'Research', 'Legal'] },
   { name: 'luxe', label: 'Luxe', category: 'Corporate', subcategory: 'Premium', colors: ['#0a1628', '#c9a96e'], layout: 'full', isNew: true, atsFriendly: false, description: 'Premium gold accents for high-impact presentation', bestFor: ['Executives', 'Board', 'Premium'] },
   
   // Modern / Tech
