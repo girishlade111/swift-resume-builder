@@ -43,6 +43,11 @@ const templateLoaders: Record<TemplateName, React.LazyExoticComponent<React.Comp
   glass: lazyTemplate(() => import('@/components/templates/GlassTemplate')),
   neon: lazyTemplate(() => import('@/components/templates/NeonTemplate')),
   pixel: lazyTemplate(() => import('@/components/templates/PixelTemplate')),
+  // New Enterprise Templates
+  'executive-prime': lazyTemplate(() => import('@/components/templates/ExecutivePrimeTemplate')),
+  'ivy-league': lazyTemplate(() => import('@/components/templates/IvyLeagueTemplate')),
+  'capital': lazyTemplate(() => import('@/components/templates/CapitalTemplate')),
+  horizon: lazyTemplate(() => import('@/components/templates/HorizonTemplate')),
 };
 
 const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight: string; text: string; muted: string }> = {
@@ -73,6 +78,11 @@ const pdfConfigs: Record<string, { headerBg: string; accent: string; accentLight
   glass: { headerBg: '#0f0a1f', accent: '#a78bfa', accentLight: '#1a1035', text: '#e2e8f0', muted: '#94a3b8' },
   neon: { headerBg: '#0a0a0f', accent: '#22d3ee', accentLight: '#0a0a0f', text: '#e2e8f0', muted: '#64748b' },
   pixel: { headerBg: '#f0fdf4', accent: '#10b981', accentLight: '#f0fdf4', text: '#374151', muted: '#6b7280' },
+  // New Enterprise Templates
+  'executive-prime': { headerBg: '#1a1a1a', accent: '#b8860b', accentLight: '#fafaf9', text: '#2a2a2a', muted: '#666666' },
+  'ivy-league': { headerBg: '#1e3a5f', accent: '#1e3a5f', accentLight: '#fdfbf7', text: '#2d2d2d', muted: '#555555' },
+  'capital': { headerBg: '#0f172a', accent: '#1e40af', accentLight: '#f1f5f9', text: '#1e293b', muted: '#475569' },
+  horizon: { headerBg: '#09090b', accent: '#16a34a', accentLight: '#f0fdf4', text: '#27272a', muted: '#71717a' },
 };
 
 const TemplateRenderer = memo(({ selectedTemplate, resume, settings }: { selectedTemplate: TemplateName; resume: any; settings: any }) => {
