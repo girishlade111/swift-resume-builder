@@ -1,116 +1,49 @@
-/**
- * ResumePreviewPlaceholder — reads from ResumeContext and shows all data sections.
- */
-import { useResume } from '@/context/ResumeContext';
+import { FileText, Sparkles, Layout, Type, Palette, MousePointer2 } from 'lucide-react';
 
 export default function ResumePreviewPlaceholder() {
-  const { resume } = useResume();
-  const { personal, summary, experience, education, projects, skills, extras } = resume;
-
-  const contactParts = [personal.email, personal.phone, personal.location].filter(Boolean);
-  const linkParts = [personal.portfolioUrl, personal.linkedinUrl, personal.githubUrl].filter(Boolean);
-
   return (
-    <div className="rounded-xl border bg-card p-6 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold">Resume Preview</h2>
-
-      <div className="rounded-lg border bg-white p-8 shadow-inner" style={{ minHeight: 400 }}>
-        {/* Header */}
-        <h3 className="text-xl font-bold">{personal.fullName || 'Your Name'}</h3>
-        {personal.jobTitle && <p className="text-sm text-primary font-medium mt-1">{personal.jobTitle}</p>}
-        {contactParts.length > 0 && <p className="text-xs text-muted-foreground mt-1">{contactParts.join(' • ')}</p>}
-        {linkParts.length > 0 && <p className="text-xs text-muted-foreground mt-0.5">{linkParts.join(' • ')}</p>}
-
-        <hr className="my-4 border-border" />
-
-        {/* Summary */}
-        {summary && (
-          <div className="mb-4">
-            <p className="font-semibold text-sm mb-1">SUMMARY</p>
-            <p className="text-xs text-muted-foreground leading-relaxed">{summary}</p>
-          </div>
-        )}
-
-        {/* Experience */}
-        <div className="mb-4">
-          <p className="font-semibold text-sm mb-1">EXPERIENCE</p>
-          {experience.length > 0 ? experience.map(exp => (
-            <div key={exp.id} className="mb-2">
-              <div className="flex justify-between text-xs">
-                <span className="font-medium">{exp.role}{exp.company ? ` — ${exp.company}` : ''}</span>
-                <span className="text-muted-foreground">{exp.startDate}{exp.startDate && (exp.isCurrent ? ' – Present' : exp.endDate ? ` – ${exp.endDate}` : '')}</span>
-              </div>
-              {exp.location && <p className="text-xs text-muted-foreground">{exp.location}</p>}
-              {exp.bulletPoints.filter(b => b.trim()).length > 0 && (
-                <ul className="ml-4 list-disc text-xs text-muted-foreground mt-1">
-                  {exp.bulletPoints.filter(b => b.trim()).map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
-              )}
-            </div>
-          )) : <p className="text-xs text-muted-foreground italic">No experience added yet.</p>}
+    <div className="flex flex-col items-center justify-center min-h-[700px] text-center p-12 bg-white rounded-sm shadow-2xl animate-fade-in border border-border/50">
+      <div className="relative mb-10">
+        <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full scale-150 animate-pulse" />
+        <div className="relative w-24 h-32 bg-card border-2 border-primary/20 rounded-xl shadow-2xl flex items-center justify-center overflow-hidden">
+           <div className="absolute top-0 left-0 w-full h-8 bg-muted/50 border-b border-primary/10" />
+           <FileText className="h-10 w-10 text-primary/40" />
+           <div className="absolute bottom-4 left-4 right-4 h-1.5 bg-muted/30 rounded-full" />
+           <div className="absolute bottom-8 left-4 right-8 h-1.5 bg-muted/30 rounded-full" />
+           <div className="absolute bottom-12 left-4 right-6 h-1.5 bg-muted/30 rounded-full" />
         </div>
-
-        {/* Education */}
-        <div className="mb-4">
-          <p className="font-semibold text-sm mb-1">EDUCATION</p>
-          {education.length > 0 ? education.map(edu => (
-            <div key={edu.id} className="mb-2">
-              <div className="flex justify-between text-xs">
-                <span className="font-medium">{edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}</span>
-                <span className="text-muted-foreground">{edu.startYear}{edu.endYear ? ` – ${edu.endYear}` : ''}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">{edu.schoolName}{edu.grade ? ` — ${edu.grade}` : ''}</p>
-            </div>
-          )) : <p className="text-xs text-muted-foreground italic">No education added yet.</p>}
+        <div className="absolute -top-4 -right-4 bg-background border shadow-xl p-2 rounded-lg animate-bounce">
+          <Sparkles className="h-5 w-5 text-amber-500" />
         </div>
+      </div>
+      
+      <h3 className="text-3xl font-bold tracking-tight mb-4">Resume Studio</h3>
+      <p className="text-muted-foreground max-w-sm mb-12 text-base leading-relaxed">
+        Your professional document will appear here in real-time. Start by choosing a template or filling in your details.
+      </p>
 
-        {/* Projects */}
-        <div className="mb-4">
-          <p className="font-semibold text-sm mb-1">PROJECTS</p>
-          {projects.length > 0 ? projects.map(proj => (
-            <div key={proj.id} className="mb-2">
-              <span className="text-xs font-medium">{proj.name}</span>
-              {proj.techStack && <span className="text-xs text-muted-foreground ml-1">({proj.techStack})</span>}
-              {proj.bulletPoints.filter(b => b.trim()).length > 0 && (
-                <ul className="ml-4 list-disc text-xs text-muted-foreground mt-1">
-                  {proj.bulletPoints.filter(b => b.trim()).map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
-              )}
-            </div>
-          )) : <p className="text-xs text-muted-foreground italic">No projects added yet.</p>}
+      <div className="grid grid-cols-2 gap-6 max-w-md w-full">
+        <div className="p-5 rounded-2xl border bg-muted/5 flex flex-col items-center gap-3 transition-all hover:bg-muted/10 hover:scale-105">
+           <Layout className="h-6 w-6 text-primary" />
+           <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">Grid Layouts</span>
         </div>
-
-        {/* Skills */}
-        <div className="mb-4">
-          <p className="font-semibold text-sm mb-1">SKILLS</p>
-          {skills.length > 0
-            ? <p className="text-xs text-muted-foreground">{skills.join(', ')}</p>
-            : <p className="text-xs text-muted-foreground italic">No skills added yet.</p>}
+        <div className="p-5 rounded-2xl border bg-muted/5 flex flex-col items-center gap-3 transition-all hover:bg-muted/10 hover:scale-105">
+           <Type className="h-6 w-6 text-primary" />
+           <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">Typography</span>
         </div>
+        <div className="p-5 rounded-2xl border bg-muted/5 flex flex-col items-center gap-3 transition-all hover:bg-muted/10 hover:scale-105">
+           <Palette className="h-6 w-6 text-primary" />
+           <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">Custom Themes</span>
+        </div>
+        <div className="p-5 rounded-2xl border bg-muted/5 flex flex-col items-center gap-3 transition-all hover:bg-muted/10 hover:scale-105">
+           <MousePointer2 className="h-6 w-6 text-primary" />
+           <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">Drag & Drop</span>
+        </div>
+      </div>
 
-        {/* Extras */}
-        {(extras.certifications || extras.languages || extras.achievements) && (
-          <>
-            {extras.certifications && (
-              <div className="mb-3">
-                <p className="font-semibold text-sm mb-1">CERTIFICATIONS</p>
-                {extras.certifications.split('\n').filter(Boolean).map((c, i) => <p key={i} className="text-xs text-muted-foreground">{c}</p>)}
-              </div>
-            )}
-            {extras.languages && (
-              <div className="mb-3">
-                <p className="font-semibold text-sm mb-1">LANGUAGES</p>
-                <p className="text-xs text-muted-foreground">{extras.languages}</p>
-              </div>
-            )}
-            {extras.achievements && (
-              <div className="mb-3">
-                <p className="font-semibold text-sm mb-1">ACHIEVEMENTS</p>
-                {extras.achievements.split('\n').filter(Boolean).map((a, i) => <p key={i} className="text-xs text-muted-foreground">{a}</p>)}
-              </div>
-            )}
-          </>
-        )}
+      <div className="mt-16 flex items-center gap-3 text-sm font-semibold text-muted-foreground/40 tracking-widest uppercase">
+        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+        Studio Ready
       </div>
     </div>
   );

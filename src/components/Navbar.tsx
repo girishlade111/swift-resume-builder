@@ -25,105 +25,80 @@ export default function Navbar() {
     }
   }, [dark]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setDark(true);
-    }
-  }, []);
-
-  const scrollToAts = () => {
-    setMobileMenuOpen(false);
-    if (window.location.pathname === '/') {
-      document.getElementById('ats-info')?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = '/#ats-info';
-    }
-  };
-
   return (
-    <header className="no-print sticky top-0 z-50 w-full border-b glass-effect">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2.5 font-bold text-lg sm:text-xl whitespace-nowrap group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-transform group-hover:scale-105">
-            <FileText className="h-5 w-5" />
-          </div>
-          <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Lade Stack
-          </span>
-        </Link>
+    <header className="no-print sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-6">
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
+              <FileText className="h-4 w-4" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-sm tracking-tight leading-none">Swift Resume</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest leading-none mt-1">Studio v2.0</span>
+            </div>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary rounded-lg hover:bg-primary/5 transition-all"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setDark(d => !d)}
-            className="h-9 w-9 rounded-xl"
-            aria-label="Toggle dark mode"
-          >
-            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={scrollToAts} className="rounded-xl">
-            Why ATS-friendly?
-          </Button>
-          <Button variant="ghost" size="sm" asChild className="rounded-xl">
-            <a href="mailto:support@ladestack.in">Feedback</a>
-          </Button>
+          <nav className="hidden lg:flex items-center gap-1 border-l pl-8 h-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3 mr-4 text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Auto-save Active
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setDark(d => !d)}
-            className="h-9 w-9 rounded-xl"
+            className="h-8 w-8 rounded-lg hover:bg-muted/80"
             aria-label="Toggle dark mode"
           >
-            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {dark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
           </Button>
+
+          <Button variant="outline" size="sm" className="h-8 rounded-lg text-xs font-bold px-4 hidden md:flex">
+             Share Studio
+          </Button>
+          
+          <Button variant="default" size="sm" className="h-8 rounded-lg text-xs font-bold px-4 shadow-md shadow-primary/10">
+             Upgrade Pro
+          </Button>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-muted-foreground hover:text-foreground"
+            className="p-2 text-muted-foreground hover:text-foreground lg:hidden"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t bg-background animate-slide-up">
-          <nav className="mx-auto max-w-7xl px-4 py-4 space-y-1">
+        <div className="lg:hidden border-t bg-background animate-slide-up shadow-2xl">
+          <nav className="p-4 space-y-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-3 text-base font-medium text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                className="block px-3 py-3 text-sm font-bold text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
               >
                 {link.label}
               </a>
             ))}
-            <div className="pt-4 mt-4 border-t space-y-2">
-              <Button variant="outline" size="sm" onClick={scrollToAts} className="w-full justify-start rounded-xl">
-                Why ATS-friendly?
-              </Button>
-              <Button variant="outline" size="sm" asChild className="w-full justify-start rounded-xl">
-                <a href="mailto:support@ladestack.in">Feedback</a>
-              </Button>
-            </div>
           </nav>
         </div>
       )}
