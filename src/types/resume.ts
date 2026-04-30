@@ -135,4 +135,8 @@ export type TemplateName =
   | 'brutalist'
   | 'glass'
   | 'neon'
-  | 'pixel';
+  | 'pixel'
+  | 'executive-prime'
+  | 'ivy-league'
+  | 'capital'
+  | 'horizon';
