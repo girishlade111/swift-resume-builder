@@ -123,14 +123,14 @@ export default function ResumePreview() {
 
   const getPdfComponent = () => {
     switch (selectedTemplate) {
-      case 'classic': return <PdfClassic data={resume} />;
-      case 'compact': return <PdfCompact data={resume} />;
-      case 'left-sidebar': return <PdfLeftSidebar data={resume} />;
-      case 'modern': return <PdfModern data={resume} />;
-      case 'minimal': return <PdfMinimal data={resume} />;
+      case 'classic': return <PdfClassic data={resume} settings={settings} />;
+      case 'compact': return <PdfCompact data={resume} settings={settings} />;
+      case 'left-sidebar': return <PdfLeftSidebar data={resume} settings={settings} />;
+      case 'modern': return <PdfModern data={resume} settings={settings} />;
+      case 'minimal': return <PdfMinimal data={resume} settings={settings} />;
       default: {
         const config = pdfConfigs[selectedTemplate];
-        return <PdfGeneric data={resume} colors={config || pdfConfigs.professional} />;
+        return <PdfGeneric data={resume} settings={settings} colors={config || pdfConfigs.professional} />;
       }
     }
   };
