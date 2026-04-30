@@ -40,6 +40,7 @@ const templates: TemplateInfo[] = [
   
   // Modern / Tech
   { name: 'modern', label: 'Modern', category: 'Modern', subcategory: 'Clean', colors: ['#1c1917', '#ffffff'], layout: 'full', isPopular: true, atsFriendly: true, description: 'Contemporary design with bold accent elements', bestFor: ['Tech', 'Startup', 'Digital'] },
+  { name: 'horizon', label: 'Horizon', category: 'Modern', subcategory: 'Growth', colors: ['#09090b', '#ffffff'], layout: 'full', isNew: true, atsFriendly: true, description: 'Dynamic growth-focused template for startups', bestFor: ['Startup', 'Sales', 'Growth'] },
   { name: 'gradient', label: 'Gradient', category: 'Modern', subcategory: 'Creative', colors: ['#4f46e5', '#ffffff'], layout: 'full', isNew: true, atsFriendly: true, description: 'Vibrant gradient accents for creative roles', bestFor: ['Design', 'Marketing', 'Media'] },
   { name: 'tech', label: 'Tech Pro', category: 'Modern', subcategory: 'Developer', colors: ['#0d1117', '#ffffff'], layout: 'full', isPopular: true, atsFriendly: true, description: 'Built for developers with GitHub/portfolio integration', bestFor: ['Engineer', 'Developer', 'DevOps'] },
   { name: 'bold', label: 'Bold', category: 'Modern', subcategory: 'Impact', colors: ['#000000', '#ffffff'], layout: 'full', atsFriendly: true, description: 'High-contrast design that commands attention', bestFor: ['Sales', 'Startup', 'Leadership'] },
